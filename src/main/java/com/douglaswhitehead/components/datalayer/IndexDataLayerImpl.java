@@ -1,4 +1,4 @@
-package com.douglaswhitehead.model.datalayer;
+package com.douglaswhitehead.components.datalayer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
