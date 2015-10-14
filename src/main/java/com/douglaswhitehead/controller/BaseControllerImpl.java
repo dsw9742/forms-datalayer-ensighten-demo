@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class BaseControllerImpl implements BaseController {
 	
-	protected String jackson(final DigitalData data) {
+	protected String toString(final DigitalData data) {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		String output = null;

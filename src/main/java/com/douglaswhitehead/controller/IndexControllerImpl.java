@@ -20,7 +20,7 @@ public class IndexControllerImpl extends BaseControllerImpl implements IndexCont
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String index(final HttpServletRequest request, final Device device, final Model model) {
-		String digitalData = jackson(dataLayer.index(request, device));
+		String digitalData = toString(dataLayer.index(request, device));
 		model.addAttribute("digitalData", digitalData);
 		return "index";
 	}

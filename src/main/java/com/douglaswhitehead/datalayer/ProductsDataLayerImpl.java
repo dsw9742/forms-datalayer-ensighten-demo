@@ -16,4 +16,16 @@ public class ProductsDataLayerImpl implements ProductsDataLayer {
 		return null;
 	}
 
+	@Override
+	public DigitalData listByCategory(String category, HttpServletRequest request, Device device) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DigitalData get(long id, HttpServletRequest request, Device device) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
