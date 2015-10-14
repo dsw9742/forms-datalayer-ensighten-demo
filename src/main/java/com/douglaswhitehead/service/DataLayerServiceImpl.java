@@ -10,7 +10,7 @@ import com.douglaswhitehead.model.datalayer.IndexDataLayerImpl;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 
 @Service
-public class DataLayerServiceImpl {
+public class DataLayerServiceImpl implements DataLayerService {
 	
 	@Autowired
 	private IndexDataLayerImpl indexDataLayer;

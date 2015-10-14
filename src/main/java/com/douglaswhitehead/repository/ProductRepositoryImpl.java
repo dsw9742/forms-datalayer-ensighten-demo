@@ -19,29 +19,17 @@ public class ProductRepositoryImpl implements ProductRepository {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public Product get(long id) {
+	public List<Product> listByCategory(final String category) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean create(Product product) {
+	public Product get(long id) {
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(Product product) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean delete(long id) {
-		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 }
