@@ -1,4 +1,4 @@
-package com.douglaswhitehead.components.datalayer;
+package com.douglaswhitehead.datalayer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,17 +16,15 @@ import com.douglaswhitehead.model.digitaldata.common.AttributesImpl;
 import com.douglaswhitehead.model.digitaldata.common.CategoryImpl;
 import com.douglaswhitehead.model.digitaldata.page.PageImpl;
 import com.douglaswhitehead.model.digitaldata.page.PageInfoImpl;
-import com.douglaswhitehead.utility.DeviceDetectorImpl;
+import com.douglaswhitehead.utility.DeviceDetector;
 
 @Component
-public class IndexDataLayerImpl {
+public class IndexDataLayerImpl implements IndexDataLayer {
 	
 	@Autowired
-	private DeviceDetectorImpl detector;
-	
-	public IndexDataLayerImpl() {}
+	private DeviceDetector detector;
 
-	public DigitalData data(final HttpServletRequest request, final Device device) {
+	public DigitalData index(final HttpServletRequest request, final Device device) {
 		DigitalData digitalData = new DigitalDataImpl.Builder()
 			.pageInstanceID("index-prod")
 			.page(pageAdapter(request, device))

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.douglaswhitehead.datalayer.ProductsDataLayer;
 import com.douglaswhitehead.model.Product;
 import com.douglaswhitehead.service.ProductService;
 
@@ -20,12 +21,15 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductsDataLayer dataLayer;
 
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(final HttpServletRequest request, final Device device, final Model model) {
 		List<Product> products = productService.list();
-		String digitalData = jackson(dataLayerService.get("products", request, device));
+		String digitalData = jackson(dataLayer.list(request, device));
 		
 		model.addAttribute("products", products);
 		model.addAttribute("digitalData", digitalData);

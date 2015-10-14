@@ -4,9 +4,7 @@ import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DeviceDetectorImpl {
-
-	public DeviceDetectorImpl() {}
+public class DeviceDetectorImpl implements DeviceDetector {
 	
 	public String detect(final Device device) {
 		if (device.isMobile()) {

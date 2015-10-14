@@ -1,4 +1,4 @@
-package com.douglaswhitehead.service;
+package com.douglaswhitehead.datalayer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,8 +6,8 @@ import org.springframework.mobile.device.Device;
 
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 
-public interface DataLayerService {
-	
-	public DigitalData get(String pageName, HttpServletRequest request, Device device);
+public interface ProductsDataLayer {
 
+	public DigitalData list(HttpServletRequest request, Device device);
+		
 }
