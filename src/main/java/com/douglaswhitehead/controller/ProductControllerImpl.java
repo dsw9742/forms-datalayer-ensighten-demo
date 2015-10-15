@@ -21,7 +21,7 @@ import com.douglaswhitehead.service.ProductService;
 public class ProductControllerImpl extends BaseControllerImpl implements ProductController {
 	
 	@Autowired
-	private ProductService productService;
+	private ProductService service;
 	
 	@Autowired
 	private ProductsDataLayer dataLayer;
@@ -29,7 +29,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(final HttpServletRequest request, final Device device, final Model model) {
-		List<Product> products = productService.list();
+		List<Product> products = service.list();
 		String digitalData = toString(dataLayer.list(request, device));
 		
 		model.addAttribute("products", products);
@@ -41,7 +41,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	@Override
 	@RequestMapping(value="/{category}", method=RequestMethod.GET)
 	public String listByCategory(@PathVariable("category") final String category, final HttpServletRequest request, final Device device, final Model model) {
-		List<Product> products = productService.listByCategory(category);
+		List<Product> products = service.listByCategory(category);
 		String digitalData = toString(dataLayer.listByCategory(category, request, device));
 
 		model.addAttribute("products", products);
@@ -55,7 +55,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	public String get(@PathVariable("id") final long id, final HttpServletRequest request, final Device device, final Model model) {
 		Product product = null;
 		try {
-			product = productService.get(id);
+			product = service.get(id);
 		} catch (Exception e) {
 			
 		}
