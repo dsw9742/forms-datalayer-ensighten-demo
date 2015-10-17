@@ -1,8 +1,10 @@
 package com.douglaswhitehead.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
@@ -28,10 +30,17 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
-	public String list(final HttpServletRequest request, final Device device, final Model model) {
+	public String list(final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(principal);
+
+		doCookies(request, response);
+		
 		List<Product> products = service.list();
 		String digitalData = toString(dataLayer.list(request, device));
-		
+
+		model.addAttribute("isAuthenticated",auth);
+		model.addAttribute("cartId", this.cartId);
+		model.addAttribute("cartSize", this.cartSize);
 		model.addAttribute("products", products);
 		model.addAttribute("digitalData", digitalData);
 		
@@ -39,11 +48,18 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	}
 
 	@Override
-	@RequestMapping(value="/{category}", method=RequestMethod.GET)
-	public String listByCategory(@PathVariable("category") final String category, final HttpServletRequest request, final Device device, final Model model) {
+	@RequestMapping(value="/category/{category}", method=RequestMethod.GET)
+	public String listByCategory(@PathVariable("category") final String category, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(principal);
+		
+		doCookies(request, response);
+		
 		List<Product> products = service.listByCategory(category);
 		String digitalData = toString(dataLayer.listByCategory(category, request, device));
 
+		model.addAttribute("isAuthenticated",auth);
+		model.addAttribute("cartId", this.cartId);
+		model.addAttribute("cartSize", this.cartSize);
 		model.addAttribute("products", products);
 		model.addAttribute("digitalData", digitalData);
 
@@ -52,7 +68,11 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 
 	@Override
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String get(@PathVariable("id") final long id, final HttpServletRequest request, final Device device, final Model model) {
+	public String get(@PathVariable("id") final long id, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(principal);
+		
+		doCookies(request, response);
+		
 		Product product = null;
 		try {
 			product = service.get(id);
@@ -61,6 +81,9 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		}
 		String digitalData = toString(dataLayer.get(id, request, device));
 		
+		model.addAttribute("isAuthenticated",auth);
+		model.addAttribute("cartId", this.cartId);
+		model.addAttribute("cartSize", this.cartSize);
 		model.addAttribute("product", product);
 		model.addAttribute("digitalData", digitalData);
 		

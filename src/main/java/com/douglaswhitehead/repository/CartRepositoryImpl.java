@@ -2,28 +2,31 @@ package com.douglaswhitehead.repository;
 
 import com.douglaswhitehead.model.Cart;
 
+
 public class CartRepositoryImpl implements CartRepository {
 
 	@Override
-	public Cart get(long id) {
+	public Cart get(final long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+	@Override
+	public Cart create(final Cart cart) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Cart create(Cart cart) {
+	public Cart update(final Cart cart) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Cart update(Cart cart) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Cart delete(long id) {
+	public Cart delete(final long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
