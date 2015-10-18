@@ -1,15 +1,15 @@
 package com.douglaswhitehead.repository;
 
-import com.douglaswhitehead.model.Cart;
+import com.douglaswhitehead.model.ShoppingCart;
 
 public interface CartRepository {
 	
-	public Cart get(long id);
+	public ShoppingCart get(long id);
 	
-	public Cart create(Cart cart);
+	public ShoppingCart create(ShoppingCart cart);
 	
-	public Cart update(Cart cart);
+	public ShoppingCart update(ShoppingCart cart);
 	
-	public Cart delete(long id);
+	public ShoppingCart delete(long id);
 	
 }

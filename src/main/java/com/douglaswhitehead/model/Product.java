@@ -7,7 +7,7 @@ public class Product implements Serializable {
 	 
 	private static final long serialVersionUID = 7931313522201856435L;
 	
-	private Long id;
+	private long id;
 	private String name;
 	private String description;
 	private String productUrl;
@@ -35,7 +35,7 @@ public class Product implements Serializable {
 	 * @param size
 	 * @param category
 	 */
-	public Product(final Long id, final String name, final String description, final String productUrl, final String imageUrl,
+	public Product(final long id, final String name, final String description, final String productUrl, final String imageUrl,
 					final String thumbnailUrl, final String manufacturer, final String sku, final String color, 
 					final BigDecimal price, final String size, final String category) {
 		this.id = id;
@@ -55,14 +55,14 @@ public class Product implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -230,7 +230,7 @@ public class Product implements Serializable {
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
 		result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -269,10 +269,7 @@ public class Product implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		if (imageUrl == null) {
 			if (other.imageUrl != null)
