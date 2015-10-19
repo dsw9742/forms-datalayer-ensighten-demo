@@ -22,8 +22,8 @@ public class IndexControllerImpl extends BaseControllerImpl implements IndexCont
 	private IndexDataLayer dataLayer;
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public String index(final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(principal);
+	public String index(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(request.getUserPrincipal());
 
 		doCookies(request, response);
 		

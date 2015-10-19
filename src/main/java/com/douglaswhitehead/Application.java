@@ -63,8 +63,12 @@ public class Application {
     				.frameOptions()
     				.disable()
     			.formLogin()
-    				.loginPage("/login")
-    				.failureUrl("/login?error")
+    				//.loginPage("/login")
+    				//.failureUrl("/login?error")
+    				.permitAll()
+    				.and()
+    			.logout()
+    				.logoutSuccessUrl("/")
     				.permitAll();
     	}
     	

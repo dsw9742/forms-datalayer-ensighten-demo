@@ -30,8 +30,8 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
-	public String list(final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(principal);
+	public String list(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(request.getUserPrincipal());
 
 		doCookies(request, response);
 		
@@ -49,8 +49,8 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 
 	@Override
 	@RequestMapping(value="/category/{category}", method=RequestMethod.GET)
-	public String listByCategory(@PathVariable("category") final String category, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(principal);
+	public String listByCategory(@PathVariable("category") final String category, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(request.getUserPrincipal());
 		
 		doCookies(request, response);
 		
@@ -68,8 +68,8 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 
 	@Override
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String get(@PathVariable("id") final long id, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(principal);
+	public String get(@PathVariable("id") final long id, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(request.getUserPrincipal());
 		
 		doCookies(request, response);
 		

@@ -10,6 +10,6 @@ import org.springframework.ui.Model;
 
 public interface IndexController {
 	
-	public String index(HttpServletRequest request, Principal principal, Device device, HttpServletResponse response, Model model);
+	public String index(HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 
 }

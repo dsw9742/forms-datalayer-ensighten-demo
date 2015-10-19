@@ -29,8 +29,8 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 	private ShoppingCartService service;
 	
 	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
-	public String get(@PathVariable("id") final UUID id, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(principal);
+	public String get(@PathVariable("id") final UUID id, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+		boolean auth = isAuthenticated(request.getUserPrincipal());
 
 		doCookies(request, response);
 		
@@ -43,15 +43,15 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 		return "cart/view";
 	}
 
-	public String addToCart(final long productId, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
+	public String addToCart(final long productId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		return null; // TODO:
 	}
 	
-	public String removeFromCart(final long productId, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
+	public String removeFromCart(final long productId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		return null; // TODO:
 	}
 	
-	public String checkout(final UUID cartId, final HttpServletRequest request, final Principal principal, final Device device, final HttpServletResponse response, final Model model) {
+	public String checkout(final UUID cartId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		return null; // TODO:
 	}
 	
