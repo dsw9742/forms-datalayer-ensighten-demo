@@ -106,3 +106,7 @@ INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MA
 INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MANUFACTURER,SKU,COLOR,SIZE,PRICE,CATEGORY) Values ('106','shoelaces','accessories''s shoelaces by Target, black, S','products/106','/images/products/shoelaces-accessories.png','/images/products/shoelaces-accessories_thumb.png','Target','106-SHO-T-B-S-A','black','S','8.0004','accessories');
 INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MANUFACTURER,SKU,COLOR,SIZE,PRICE,CATEGORY) Values ('107','shoelaces','accessories''s shoelaces by Target, black, M','products/107','/images/products/shoelaces-accessories.png','/images/products/shoelaces-accessories_thumb.png','Target','107-SHO-T-B-M-A','black','M','10.0005','accessories');
 INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MANUFACTURER,SKU,COLOR,SIZE,PRICE,CATEGORY) Values ('108','shoelaces','accessories''s shoelaces by Target, black, L','products/108','/images/products/shoelaces-accessories.png','/images/products/shoelaces-accessories_thumb.png','Target','108-SHO-T-B-L-A','black','L','12.0006','accessories');
+
+INSERT INTO SHOPPING_CARTS(ID, BASE_PRICE, VOUCHER_CODE, VOUCHER_DISCOUNT, CURRENCY, TAX_RATE, SHIPPING, SHIPPING_METHOD, PRICE_WITH_TAX, CART_TOTAL) VALUES('38400000-8cf0-11bd-b23e-10b96e4ef00d', 9.00, '', 0, 'USD', .10, 0.90, 'UPS', 9.90, 9.90);
+
+INSERT INTO SHOPPING_CART_ITEMS(CART_ID, PRODUCT_ID, QUANTITY) VALUES('38400000-8cf0-11bd-b23e-10b96e4ef00d', 1, 1);

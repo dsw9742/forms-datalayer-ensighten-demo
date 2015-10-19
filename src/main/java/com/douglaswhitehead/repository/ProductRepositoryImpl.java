@@ -76,7 +76,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ProductRowMapper());
 	}
 	
-	private class ProductRowMapper implements RowMapper<Product> {
+	public class ProductRowMapper implements RowMapper<Product> {
+		@Override
 		public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
 			return new Product(
 				rs.getLong("ID"),

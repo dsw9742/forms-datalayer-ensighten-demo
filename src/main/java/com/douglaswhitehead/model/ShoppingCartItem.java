@@ -1,25 +1,22 @@
 package com.douglaswhitehead.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-/**
- * DON'T ACTUALLY NEED THIS CLASS -- REMOVE IT. JUST NEED A JOIN-TABLE BETWEEN CART_ID AND PRODUCT_ID.
- * 
- * @author Douglas.Whitehead
- *
- */
-public class CartProduct extends Product {
+public class ShoppingCartItem extends Product implements Serializable {
 
-	private static final long serialVersionUID = 5720195375011996118L;
+	private static final long serialVersionUID = 2760226980413838674L;
 	
 	private UUID cartId;
-	
-	public CartProduct(final UUID cartId, final long id, final String name, final String description, final String productUrl, final String imageUrl,
+	private int quantity;
+
+	public ShoppingCartItem(final long id, final String name, final String description, final String productUrl, final String imageUrl,
 			final String thumbnailUrl, final String manufacturer, final String sku, final String color, final BigDecimal price, final String size,
-			final String category) {
+			final String category, final int quantity, final UUID cartId) {
 		super(id, name, description, productUrl, imageUrl, thumbnailUrl, manufacturer, sku, color, price, size, category);
 		this.cartId = cartId;
+		this.quantity = quantity;
 	}
 
 	/**
@@ -36,6 +33,20 @@ public class CartProduct extends Product {
 		this.cartId = cartId;
 	}
 
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -44,6 +55,7 @@ public class CartProduct extends Product {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((cartId == null) ? 0 : cartId.hashCode());
+		result = prime * result + quantity;
 		return result;
 	}
 
@@ -56,13 +68,15 @@ public class CartProduct extends Product {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CartProduct))
+		if (!(obj instanceof ShoppingCartItem))
 			return false;
-		CartProduct other = (CartProduct) obj;
+		ShoppingCartItem other = (ShoppingCartItem) obj;
 		if (cartId == null) {
 			if (other.cartId != null)
 				return false;
 		} else if (!cartId.equals(other.cartId))
+			return false;
+		if (quantity != other.quantity)
 			return false;
 		return true;
 	}
@@ -73,8 +87,10 @@ public class CartProduct extends Product {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("CartProduct [cartId=");
+		builder.append("ShoppingCartItem [cartId=");
 		builder.append(cartId);
+		builder.append(", quantity=");
+		builder.append(quantity);
 		builder.append(", getId()=");
 		builder.append(getId());
 		builder.append(", getName()=");

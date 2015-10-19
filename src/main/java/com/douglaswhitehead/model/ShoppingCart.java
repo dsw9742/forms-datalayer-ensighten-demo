@@ -2,7 +2,6 @@ package com.douglaswhitehead.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,11 +19,9 @@ public class ShoppingCart implements Serializable {
 	private String shippingMethod;
 	private BigDecimal priceWithTax;
 	private BigDecimal cartTotal;
-	private List<Product> cartItems[];
+	private List<ShoppingCartItem> cartItems;
 	
-	public ShoppingCart() {
-		
-	}
+	public ShoppingCart() {}
 
 	/**
 	 * @return the id
@@ -169,14 +166,14 @@ public class ShoppingCart implements Serializable {
 	/**
 	 * @return the cartItems
 	 */
-	public List<Product>[] getCartItems() {
+	public List<ShoppingCartItem> getCartItems() {
 		return cartItems;
 	}
 
 	/**
 	 * @param cartItems the cartItems to set
 	 */
-	public void setCartItems(List<Product>[] cartItems) {
+	public void setCartItems(List<ShoppingCartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
 
@@ -188,7 +185,7 @@ public class ShoppingCart implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((basePrice == null) ? 0 : basePrice.hashCode());
-		result = prime * result + Arrays.hashCode(cartItems);
+		result = prime * result + ((cartItems == null) ? 0 : cartItems.hashCode());
 		result = prime * result + ((cartTotal == null) ? 0 : cartTotal.hashCode());
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -218,7 +215,10 @@ public class ShoppingCart implements Serializable {
 				return false;
 		} else if (!basePrice.equals(other.basePrice))
 			return false;
-		if (!Arrays.equals(cartItems, other.cartItems))
+		if (cartItems == null) {
+			if (other.cartItems != null)
+				return false;
+		} else if (!cartItems.equals(other.cartItems))
 			return false;
 		if (cartTotal == null) {
 			if (other.cartTotal != null)
@@ -295,7 +295,7 @@ public class ShoppingCart implements Serializable {
 		builder.append(", cartTotal=");
 		builder.append(cartTotal);
 		builder.append(", cartItems=");
-		builder.append(Arrays.toString(cartItems));
+		builder.append(cartItems);
 		builder.append("]");
 		return builder.toString();
 	}

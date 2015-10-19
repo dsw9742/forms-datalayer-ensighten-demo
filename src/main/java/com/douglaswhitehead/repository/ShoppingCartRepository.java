@@ -1,15 +1,17 @@
 package com.douglaswhitehead.repository;
 
+import java.util.UUID;
+
 import com.douglaswhitehead.model.ShoppingCart;
 
-public interface CartRepository {
+public interface ShoppingCartRepository {
 	
-	public ShoppingCart get(long id);
+	public ShoppingCart get(UUID id);
 	
 	public ShoppingCart create(ShoppingCart cart);
 	
 	public ShoppingCart update(ShoppingCart cart);
 	
-	public ShoppingCart delete(long id);
+	public UUID delete(UUID id);
 	
 }
