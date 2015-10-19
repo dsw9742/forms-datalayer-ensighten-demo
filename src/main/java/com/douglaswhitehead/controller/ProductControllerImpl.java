@@ -36,7 +36,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		doCookies(request, response);
 		
 		List<Product> products = service.list();
-		String digitalData = toString(dataLayer.list(request, device));
+		String digitalData = toString(dataLayer.list(products, request, device));
 
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", this.cartId);
@@ -55,7 +55,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		doCookies(request, response);
 		
 		List<Product> products = service.listByCategory(category);
-		String digitalData = toString(dataLayer.listByCategory(category, request, device));
+		String digitalData = toString(dataLayer.listByCategory(category, products, request, device));
 
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", this.cartId);
@@ -79,7 +79,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		} catch (Exception e) {
 			
 		}
-		String digitalData = toString(dataLayer.get(id, request, device));
+		String digitalData = toString(dataLayer.get(product, request, device));
 		
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", this.cartId);
