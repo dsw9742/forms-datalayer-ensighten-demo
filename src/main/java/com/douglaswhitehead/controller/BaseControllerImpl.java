@@ -70,7 +70,7 @@ public abstract class BaseControllerImpl implements BaseController {
 	}
 
 	/**
-	 * Creates shopping cart cookie, persists the UUID id of the cart, and ensures it exists for
+	 * Creates shopping cart cookie, persists the id of the cart, and ensures it exists for
 	 * another 60 days.
 	 * 
 	 * @param HttpServletRequest request
@@ -93,6 +93,7 @@ System.out.println("equals!");
 				cartIdCookie = cookie;
 				cartIdCookie.setMaxAge(expiry);
 				cartIdCookie.setPath("/");
+				response.addCookie(cartIdCookie);
 				check = true;
 				this.cartId =  UUID.fromString(cartIdCookie.getValue()); // set id of cart
 				break;
@@ -104,6 +105,7 @@ System.out.println("equals!");
 			UUID cartId = UUID.randomUUID();
 			cartIdCookie = new Cookie(cookieName, cartId.toString());
 			cartIdCookie.setMaxAge(expiry);
+			cartIdCookie.setPath("/");
 			response.addCookie(cartIdCookie);
 			this.cartId = cartId;
 		}

@@ -42,7 +42,7 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 		for (ShoppingCartItem item : items) {
 			item.getName();
 		}*/
-		
+		model.addAttribute("scart", cartToString(cart));
 		model.addAttribute("cart", cart);
 		model.addAttribute("digitalData", "");
 	
@@ -58,7 +58,7 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 		ShoppingCart cart = service.addToCart(id, productId);
 		
 		model.addAttribute("cart", cart);
-		model.addAttribute("digitalData", cartToString(cart)); // TEMP
+		model.addAttribute("digitalData", "");
 	
 		return "cart/view";
 	}

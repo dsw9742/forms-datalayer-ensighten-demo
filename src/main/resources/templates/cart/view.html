@@ -13,11 +13,11 @@
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
-		    //var cart = JSON.parse([[${cart}]]);
-			//console.log("cart:%o",cart);
+		    var cart = JSON.parse([[${scart}]]);
+			console.log("cart:%o",cart);
 		    
-			var digitalData = JSON.parse([[${digitalData}]]);
-			console.log("digitalData:%o",digitalData);
+			//var digitalData = JSON.parse([[${digitalData}]]);
+			//console.log("digitalData:%o",digitalData);
 		/*]]>*/	
 		</script>
 	</head>
@@ -26,7 +26,7 @@
 		
 		<div class="jumbotron"></div>
 		
-    	<div class="container" th:if="${cart} != null">
+    	<div class="container" th:if="(${cart} != null)">
     		Cart is not null.
     		<span th:text="${cart.cartItems}"></span>
     		

@@ -26,8 +26,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return cartRepository.get(id);
 	}
 
-	@Override
-	public ShoppingCart addToCart(final UUID id, final long productId) {
+	//@Override
+	public ShoppingCart addToCart2(final UUID id, final long productId) {
 		
 		boolean createFlag = true;
 		
@@ -75,6 +75,42 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		
 		return cart;
 		
+	}
+	
+	@Override
+	public ShoppingCart addToCart(final UUID id, final long productId) {
+		ShoppingCart cart = getOrCreateCart(id);
+		Product product = productRepository.get(productId);
+		
+		List<ShoppingCartItem> items = cart.getCartItems();
+		for (ShoppingCartItem item : items) {
+			if (item.getId() == productId) {
+				item.setQuantity(item.getQuantity()+1);
+			} else {
+				ShoppingCartItem newItem = new ShoppingCartItem(
+					product.getId(),
+					product.getName(),
+					product.getDescription(),
+					product.getProductUrl(),
+					product.getImageUrl(),
+					product.getThumbnailUrl(),
+					product.getManufacturer(),
+					product.getSku(),
+					product.getColor(),
+					product.getPrice(),
+					product.getSize(),
+					product.getCategory(),
+					1,
+					cart.getId()
+				);
+				items.add(newItem);
+			}
+		}
+		cart.setCartItems(items);
+		
+		cart = cartRepository.update(cart);
+		
+		return cart;
 	}
 
 	@Override
@@ -134,5 +170,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public UUID delete(final UUID id) {
 		return cartRepository.delete(id);
 	}
+	
+	private ShoppingCart getOrCreateCart(final UUID id) {  
+		ShoppingCart cart = cartRepository.get(id);  
+        if (cart == null) {
+        	cart = new ShoppingCart();
+        	cart.setId(id);
+            cart = cartRepository.create(cart);  
+        }
+        return cart;  
+    }
 
 }
