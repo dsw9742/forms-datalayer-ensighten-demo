@@ -2,6 +2,7 @@ package com.douglaswhitehead.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class ShoppingCart implements Serializable {
 	private String shippingMethod;
 	private BigDecimal priceWithTax;
 	private BigDecimal cartTotal;
-	private List<ShoppingCartItem> cartItems;
+	private List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>();
 	
 	public ShoppingCart() {}
 

@@ -28,7 +28,7 @@
         		<img th:src="${product.imageUrl}" width="300" />
         		<p><span th:text="${product.description}"></span></p>
         		<p><span th:text="'$'+${product.price}"></span></p>
-        		<p><a class="btn btn-primary btn-lg" href="#" role="button">+ Add to Cart</a></p>
+        		<p><a class="btn btn-primary btn-lg" th:href="'/carts/'+${cartId}+'/addToCart/'+${product.id}" role="button">+ Add to Cart</a></p>
       		</div>
     	</div>
 

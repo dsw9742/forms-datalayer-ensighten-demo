@@ -84,10 +84,15 @@ public abstract class BaseControllerImpl implements BaseController {
 		// check for cookie
 		boolean check = false;
 		for (Cookie cookie : request.getCookies()) {
+System.out.println("cookie: "+cookie);
+System.out.println("cookie.getName(): "+cookie.getName());
+System.out.println("cookie.getValue(): "+cookie.getValue());
 			// if cartCookie is found, extend the expiration date another 60 days
-			if (cookie.getName() == cookieName) {
+			if (cookie.getName().equals(cookieName)) {
+System.out.println("equals!");
 				cartIdCookie = cookie;
 				cartIdCookie.setMaxAge(expiry);
+				cartIdCookie.setPath("/");
 				check = true;
 				this.cartId =  UUID.fromString(cartIdCookie.getValue()); // set id of cart
 				break;
@@ -121,9 +126,10 @@ public abstract class BaseControllerImpl implements BaseController {
 		boolean check = false;
 		for (Cookie cookie : request.getCookies()) {
 			// if cartSizeCookie is found, extend the expiration date another 60 days
-			if (cookie.getName() == cookieName) {
+			if (cookie.getName().equals(cookieName)) {
 				cartSizeCookie = cookie;
 				cartSizeCookie.setMaxAge(expiry);
+				cartSizeCookie.setPath("/");
 				check = true;
 				this.cartSize = Integer.parseInt(cartSizeCookie.getValue()); // set size of cart
 				break;

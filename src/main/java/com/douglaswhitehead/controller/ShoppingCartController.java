@@ -13,9 +13,9 @@ public interface ShoppingCartController {
 	
 	public String get(UUID id, HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 	
-	public String addToCart(long productId, HttpServletRequest request, Device device, HttpServletResponse response, Model model);
+	public String addToCart(UUID id, long productId, HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 	
-	public String removeFromCart(long productId, HttpServletRequest request, Device device, HttpServletResponse response, Model model);
+	public String removeFromCart(UUID id, long productId, HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 	
 	public String checkout(UUID id, HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 
