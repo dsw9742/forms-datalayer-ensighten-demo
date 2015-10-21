@@ -27,8 +27,17 @@
 		<div class="jumbotron"></div>
 		
     	<div class="container" th:if="(${cart} != null)">
-    		Cart is not null.
-    		<span th:text="${cart.cartItems}"></span>
+
+    		<p>(Cart) Id: <span th:text="${cart.id}"></span></p>
+    		<p>Base Price: <span th:text="${cart.basePrice}"></span></p>
+    		<p>Voucher Code: <span th:text="${cart.voucherCode}"></span></p>
+    		<p>Voucher Discount: <span th:text="${cart.voucherDiscount}"></span></p>
+    		<p>Currency: <span th:text="${cart.currency}"></span></p>
+    		<p>Tax Rate: <span th:text="${cart.taxRate}"></span></p>
+    		<p>Shipping: <span th:text="${cart.shipping}"></span></p>
+    		<p>Shipping Method: <span th:text="${cart.shippingMethod}"></span></p>
+    		<p>Price with Tax: <span th:text="${cart.priceWithTax}"></span></p>
+    		<p>Cart Total: <span th:text="${cart.cartTotal}"></span></p>
     		
     		<div class="row" th:each="item : ${cart.getCartItems()}">
 		        <div class="col-md-4">

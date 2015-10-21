@@ -38,13 +38,8 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 		
 		ShoppingCart cart = service.get(id);
 		
-		/*List<ShoppingCartItem> items = cart.getCartItems();
-		for (ShoppingCartItem item : items) {
-			item.getName();
-		}*/
-		model.addAttribute("scart", cartToString(cart));
 		model.addAttribute("cart", cart);
-		model.addAttribute("digitalData", "");
+		model.addAttribute("digitalData", ""); // TODO:
 	
 		return "cart/view";
 	}
@@ -58,9 +53,9 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 		ShoppingCart cart = service.addToCart(id, productId);
 		
 		model.addAttribute("cart", cart);
-		model.addAttribute("digitalData", "");
+		model.addAttribute("digitalData", ""); // TODO:
 	
-		return "cart/view";
+		return "redirect:/carts/"+id.toString();
 	}
 	
 	@RequestMapping(value = "/{id}/removeFromCart/{productId}", method=RequestMethod.GET)
@@ -70,19 +65,6 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 	
 	public String checkout(final UUID cartId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		return null; // TODO:
-	}
-	
-	// TEMP
-	protected String cartToString(final ShoppingCart cart) {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(Include.NON_NULL);
-		String output = null;
-		try {
-			output = mapper.writeValueAsString(cart);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return output;
 	}
 	
 }

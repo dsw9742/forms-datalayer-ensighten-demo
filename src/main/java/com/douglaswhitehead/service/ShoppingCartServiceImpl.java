@@ -1,5 +1,6 @@
 package com.douglaswhitehead.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,57 +26,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public ShoppingCart get(final UUID id) {
 		return cartRepository.get(id);
 	}
-
-	//@Override
-	public ShoppingCart addToCart2(final UUID id, final long productId) {
-		
-		boolean createFlag = true;
-		
-		Product product = productRepository.get(productId);
-		ShoppingCart cart = cartRepository.get(id);
-		
-		if (cart == null) {
-			cart = new ShoppingCart();
-			cart.setId(UUID.randomUUID());	
-		} else {
-			createFlag = false;
-		}
-		
-		List<ShoppingCartItem> items = cart.getCartItems();
-		for (ShoppingCartItem item : items) {
-			if (item.getId() == productId) {
-				item.setQuantity(item.getQuantity()+1);
-			} else {
-				ShoppingCartItem newItem = new ShoppingCartItem(
-					product.getId(),
-					product.getName(),
-					product.getDescription(),
-					product.getProductUrl(),
-					product.getImageUrl(),
-					product.getThumbnailUrl(),
-					product.getManufacturer(),
-					product.getSku(),
-					product.getColor(),
-					product.getPrice(),
-					product.getSize(),
-					product.getCategory(),
-					1,
-					cart.getId()
-				);
-				items.add(newItem);
-			}
-		}
-		cart.setCartItems(items);
-		
-		if (createFlag == true) {
-			cart = cartRepository.create(cart);
-		} else {
-			cart = cartRepository.update(cart);
-		}
-		
-		return cart;
-		
-	}
 	
 	@Override
 	public ShoppingCart addToCart(final UUID id, final long productId) {
@@ -83,85 +33,45 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Product product = productRepository.get(productId);
 		
 		List<ShoppingCartItem> items = cart.getCartItems();
-		for (ShoppingCartItem item : items) {
+		List<ShoppingCartItem> itemsToAdd = new ArrayList<ShoppingCartItem>();
+		for(ShoppingCartItem item : items) {
 			if (item.getId() == productId) {
 				item.setQuantity(item.getQuantity()+1);
 			} else {
-				ShoppingCartItem newItem = new ShoppingCartItem(
-					product.getId(),
-					product.getName(),
-					product.getDescription(),
-					product.getProductUrl(),
-					product.getImageUrl(),
-					product.getThumbnailUrl(),
-					product.getManufacturer(),
-					product.getSku(),
-					product.getColor(),
-					product.getPrice(),
-					product.getSize(),
-					product.getCategory(),
-					1,
-					cart.getId()
-				);
-				items.add(newItem);
+				itemsToAdd.add(createItem(id, product));
 			}
 		}
+		if (items.size() == 0) {
+			items.add(createItem(id, product));
+		}
+		items.addAll(itemsToAdd);
 		cart.setCartItems(items);
 		
 		cart = cartRepository.update(cart);
 		
 		return cart;
 	}
-
+	
 	@Override
 	public ShoppingCart removeFromCart(final UUID id, final long productId) {
-		
-		boolean createFlag = true;
-		
-		Product product = productRepository.get(productId);
-		ShoppingCart cart = cartRepository.get(id);
-		
-		if (cart == null) {
-			cart = new ShoppingCart();
-			cart.setId(UUID.randomUUID());	
-		} else {
-			createFlag = false;
-		}
+		ShoppingCart cart = getOrCreateCart(id);
 		
 		List<ShoppingCartItem> items = cart.getCartItems();
-		for (ShoppingCartItem item : items) {
+		List<ShoppingCartItem> itemsToRemove = new ArrayList<ShoppingCartItem>();
+		for(ShoppingCartItem item : items) {
 			if (item.getId() == productId) {
 				item.setQuantity(item.getQuantity()-1);
 				if (item.getQuantity() == 0) {
-					items.remove(item);
+					itemsToRemove.add(item);
 				}
-			} else {
-				ShoppingCartItem newItem = new ShoppingCartItem(
-					product.getId(),
-					product.getName(),
-					product.getDescription(),
-					product.getProductUrl(),
-					product.getImageUrl(),
-					product.getThumbnailUrl(),
-					product.getManufacturer(),
-					product.getSku(),
-					product.getColor(),
-					product.getPrice(),
-					product.getSize(),
-					product.getCategory(),
-					1,
-					cart.getId()
-				);
-				items.add(newItem);
 			}
+		}
+		if (itemsToRemove.size() > 0) {
+			items.removeAll(itemsToRemove);
 		}
 		cart.setCartItems(items);
 		
-		if (createFlag == true) {
-			cart = cartRepository.create(cart);
-		} else {
-			cart = cartRepository.update(cart);
-		}
+		cart = cartRepository.update(cart);
 		
 		return cart;
 	}
@@ -180,5 +90,24 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
         return cart;  
     }
+	
+	private ShoppingCartItem createItem(final UUID cartId, final Product product) {
+		return new ShoppingCartItem(
+				product.getId(),
+				product.getName(),
+				product.getDescription(),
+				product.getProductUrl(),
+				product.getImageUrl(),
+				product.getThumbnailUrl(),
+				product.getManufacturer(),
+				product.getSku(),
+				product.getColor(),
+				product.getPrice(),
+				product.getSize(),
+				product.getCategory(),
+				1,
+				cartId
+			);
+	}
 
 }

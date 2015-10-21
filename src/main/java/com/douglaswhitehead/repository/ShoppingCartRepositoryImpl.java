@@ -79,7 +79,7 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		
 		// perform calculations
 		
-		final ShoppingCart insertCart = calculateCartItems(cart.getCartItems());
+		final ShoppingCart insertCart = calculateCartItems(cart, cart.getCartItems());
 		insertCart.setId(cart.getId());
 		
 		// insert new cart
@@ -128,7 +128,7 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		
 		// perform calculations
 		
-		final ShoppingCart updateCart = calculateCartItems(cart.getCartItems());
+		final ShoppingCart updateCart = calculateCartItems(cart, cart.getCartItems());
 		updateCart.setId(cart.getId());
 				
 		// update existing cart
@@ -215,13 +215,15 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		}
 	}
 	
-	private ShoppingCart calculateCartItems(final List<ShoppingCartItem> items) {
-		ShoppingCart cart = new ShoppingCart();
+	private ShoppingCart calculateCartItems(final ShoppingCart cart, final List<ShoppingCartItem> items) {
+		ShoppingCart newCart = new ShoppingCart();
 		
 		BigDecimal basePrice = new BigDecimal("0");
-		BigDecimal voucherDiscount = new BigDecimal("1");
-		BigDecimal priceWithTax;
-		BigDecimal cartTotal;
+		BigDecimal voucherDiscount = new BigDecimal("1"); // this is hard-coded at 1 , which means 100%, 
+														  // which in effect means there is no discount, 
+														  // would likely be different in a real e-commerce system
+		BigDecimal priceWithTax = new BigDecimal("0");
+		BigDecimal cartTotal = new BigDecimal("0");
 		
 		for (ShoppingCartItem item : items) {
 			BigDecimal price = item.getPrice();
@@ -229,23 +231,27 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 			
 			basePrice = basePrice.add(price.multiply(quantity));
 		}
-		cart.setBasePrice(basePrice);
+		newCart.setBasePrice(basePrice);
 		
-		cart.setVoucherDiscount(voucherDiscount);
-		cart.setCurrency(CURRENCY);
-		cart.setTaxRate(TAX_RATE);
-		cart.setShipping(SHIPPING);
-		cart.setShippingMethod(SHIPPING_METHOD);
+		newCart.setVoucherCode(cart.getVoucherCode());
+		newCart.setVoucherDiscount(voucherDiscount);
+		newCart.setCurrency(CURRENCY);
+		newCart.setTaxRate(TAX_RATE);
+		newCart.setShipping(SHIPPING);
+		newCart.setShippingMethod(SHIPPING_METHOD);
 		
-		priceWithTax = basePrice
-							.multiply(voucherDiscount)
-							.multiply(TAX_RATE);
-		cart.setPriceWithTax(priceWithTax);
+		priceWithTax = basePrice.add(
+							priceWithTax.add(basePrice
+									.multiply(voucherDiscount)
+										.multiply(TAX_RATE)));
+		newCart.setPriceWithTax(priceWithTax);
 		
-		cartTotal = priceWithTax.add(SHIPPING);
-		cart.setCartTotal(cartTotal);
+		cartTotal = cartTotal.add(priceWithTax.add(SHIPPING));
+		newCart.setCartTotal(cartTotal);
 		
-		return cart;
+		newCart.setCartItems(items);
+		
+		return newCart;
 	}
 
 }
