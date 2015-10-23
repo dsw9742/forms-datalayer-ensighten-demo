@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 
+import com.douglaswhitehead.model.ShoppingCart;
+import com.douglaswhitehead.model.ShoppingCartItem;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,15 +18,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class BaseControllerImpl implements BaseController {
 	
-	/**
-	 * id of cart
-	 */
-	protected UUID cartId;
+	private static final String CART_ID_COOKIE_NAME = "shoppingCartId";
 	
-	/**
-	 * # of items in the cart
-	 */
-	protected int cartSize;
+	private static final int CART_ID_COOKIE_EXPIRY = 60 * 60 * 24 * 60; // 60 days
+	
+	private static final String CART_ID_COOKIE_PATH = "/";
+	
 	
 	/**
 	 * Converts DigitalData data to a JavaScript string.
@@ -58,91 +57,48 @@ public abstract class BaseControllerImpl implements BaseController {
 		return false;
 	}
 	
-	/**
-	 * Wrapper method for cookie-related methods.
-	 * 
-	 * @param HttpServletRequest request
-	 * @param HttpServletResponse response
-	 */
-	protected void doCookies(final HttpServletRequest request, final HttpServletResponse response) {
-		cartIdCookie(request, response);
-		cartSizeCookie(request, response);
-	}
-
-	/**
-	 * Creates shopping cart cookie, persists the id of the cart, and ensures it exists for
-	 * another 60 days.
-	 * 
-	 * @param HttpServletRequest request
-	 * @param HttpServletResponse response
-	 */
-	private void cartIdCookie(final HttpServletRequest request, final HttpServletResponse response) {
-		Cookie cartIdCookie;
-		String cookieName = "shoppingCartId";
-		int expiry = 60 * 60 * 24 * 60; // 60 days
-		
-		// check for cookie
-		boolean check = false;
+	protected boolean checkCartIdCookie(final HttpServletRequest request) {
+		boolean flag = false;
 		for (Cookie cookie : request.getCookies()) {
-			// if cartCookie is found, extend the expiration date another 60 days
-			if (cookie.getName().equals(cookieName)) {
-				cartIdCookie = cookie;
-				cartIdCookie.setMaxAge(expiry);
-				cartIdCookie.setPath("/");
-				response.addCookie(cartIdCookie);
-				check = true;
-				this.cartId =  UUID.fromString(cartIdCookie.getValue()); // set id of cart
+			if (cookie.getName().equals(CART_ID_COOKIE_NAME)) {
+				flag = true;
 				break;
 			}
 		}
-		
-		// if cartCookie is not found, create it
-		if (check == false) {
-			UUID cartId = UUID.randomUUID();
-			cartIdCookie = new Cookie(cookieName, cartId.toString());
-			cartIdCookie.setMaxAge(expiry);
-			cartIdCookie.setPath("/");
-			response.addCookie(cartIdCookie);
-			this.cartId = cartId;
-		}
-		
+		return flag;
 	}
 	
-	/**
-	 * Creates shopping cart size cookie, persists the value of the cart size, and ensures it exists for
-	 * another 60 days.
-	 * 
-	 * @param HttpServletRequest request
-	 * @param HttpServletResponse response
-	 */
-	private void cartSizeCookie(final HttpServletRequest request, final HttpServletResponse response) {
-		Cookie cartSizeCookie;
-		String cookieName = "shoppingCartSize";
-		int expiry = 60 * 60 * 24 * 60; // 60 days
+	protected String setNewCartIdCookie(final HttpServletRequest request, final HttpServletResponse response) {
+		Cookie cartIdCookie = new Cookie(CART_ID_COOKIE_NAME, UUID.randomUUID().toString());
+		cartIdCookie.setMaxAge(CART_ID_COOKIE_EXPIRY);
+		cartIdCookie.setPath(CART_ID_COOKIE_PATH);
+		response.addCookie(cartIdCookie);
 		
-		// check for cookie
-		boolean check = false;
+		return cartIdCookie.getValue();
+	}
+	
+	protected Cookie getCartIdCookie(final HttpServletRequest request) {
 		for (Cookie cookie : request.getCookies()) {
-			// if cartSizeCookie is found, extend the expiration date another 60 days
-			if (cookie.getName().equals(cookieName)) {
-				cartSizeCookie = cookie;
-				cartSizeCookie.setMaxAge(expiry);
-				cartSizeCookie.setPath("/");
-				check = true;
-				this.cartSize = Integer.parseInt(cartSizeCookie.getValue()); // set size of cart
-				break;
+			if (cookie.getName().equals(CART_ID_COOKIE_NAME)) {
+				return cookie;
 			}
 		}
-		
-		// if cartCookie is not found, create it
-		if (check == false) {
-			int size = 0;
-			cartSizeCookie = new Cookie(cookieName,Integer.toString(size));
-			cartSizeCookie.setMaxAge(expiry);
-			response.addCookie(cartSizeCookie);
-			this.cartSize = 0; // set size of cart
+		return null;
+	}
+	
+	protected int setCartIdCookieExpiry(final Cookie cookie) {
+		cookie.setMaxAge(CART_ID_COOKIE_EXPIRY);
+		return CART_ID_COOKIE_EXPIRY;
+	}
+	
+	protected int calculateCartSize(final ShoppingCart cart) {
+		int cartSize = 0;
+		if (cart != null) {
+			for (ShoppingCartItem item : cart.getCartItems()) {
+				cartSize += item.getQuantity();
+			}
 		}
-		
+		return cartSize;
 	}
 	
 }

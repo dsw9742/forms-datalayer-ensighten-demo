@@ -1,9 +1,8 @@
 package com.douglaswhitehead.controller;
 
-import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.douglaswhitehead.model.ShoppingCart;
-import com.douglaswhitehead.model.ShoppingCartItem;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 import com.douglaswhitehead.service.ShoppingCartService;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/carts")
@@ -34,10 +29,16 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 	public String get(@PathVariable("id") final UUID id, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		boolean auth = isAuthenticated(request.getUserPrincipal());
 
-		doCookies(request, response);
+		if (!checkCartIdCookie(request)) {
+			setNewCartIdCookie(request, response);
+		}
 		
 		ShoppingCart cart = service.get(id);
+											// TODO: push cart, user objects
 		
+		model.addAttribute("isAuthenticated", auth);
+		model.addAttribute("cartId", cart.getId().toString());
+		model.addAttribute("cartSize", calculateCartSize(cart));
 		model.addAttribute("cart", cart);
 		model.addAttribute("digitalData", ""); // TODO:
 	
@@ -48,10 +49,16 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 	public String addToCart(@PathVariable("id") final UUID id, @PathVariable("productId") final long productId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		boolean auth = isAuthenticated(request.getUserPrincipal());
 
-		doCookies(request, response);
+		Cookie cookie = getCartIdCookie(request);
+		setCartIdCookieExpiry(cookie);
+		response.addCookie(cookie);
 		
 		ShoppingCart cart = service.addToCart(id, productId);
+											// TODO: push cart, user objects
 		
+		model.addAttribute("isAuthenticated", auth);
+		model.addAttribute("cartId", cart.getId().toString());
+		model.addAttribute("cartSize", calculateCartSize(cart));
 		model.addAttribute("cart", cart);
 		model.addAttribute("digitalData", ""); // TODO:
 	
