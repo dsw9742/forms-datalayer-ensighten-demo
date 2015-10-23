@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.douglaswhitehead.model.Product;
@@ -23,11 +25,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	private ProductRepository productRepository;
 
 	@Override
+	@Cacheable(value="cart")
 	public ShoppingCart get(final UUID id) {
 		return cartRepository.get(id);
 	}
 	
 	@Override
+	@CacheEvict(value="cart", allEntries=false, key="#id")
 	public ShoppingCart addToCart(final UUID id, final long productId) {
 		ShoppingCart cart = getOrCreateCart(id);
 		Product product = productRepository.get(productId);
@@ -53,6 +57,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	}
 	
 	@Override
+	@CacheEvict(value="cart", allEntries=false, key="#id")
 	public ShoppingCart removeFromCart(final UUID id, final long productId) {
 		ShoppingCart cart = getOrCreateCart(id);
 		
