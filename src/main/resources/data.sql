@@ -106,3 +106,13 @@ INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MA
 INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MANUFACTURER,SKU,COLOR,SIZE,PRICE,CATEGORY) Values ('106','shoelaces','accessories''s shoelaces by Target, black, S','products/106','/images/products/shoelaces-accessories.png','/images/products/shoelaces-accessories_thumb.png','Target','106-SHO-T-B-S-A','black','S','8.0004','accessories');
 INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MANUFACTURER,SKU,COLOR,SIZE,PRICE,CATEGORY) Values ('107','shoelaces','accessories''s shoelaces by Target, black, M','products/107','/images/products/shoelaces-accessories.png','/images/products/shoelaces-accessories_thumb.png','Target','107-SHO-T-B-M-A','black','M','10.0005','accessories');
 INSERT INTO products( ID,NAME,DESCRIPTION,PRODUCT_URL,IMAGE_URL,THUMBNAIL_URL,MANUFACTURER,SKU,COLOR,SIZE,PRICE,CATEGORY) Values ('108','shoelaces','accessories''s shoelaces by Target, black, L','products/108','/images/products/shoelaces-accessories.png','/images/products/shoelaces-accessories_thumb.png','Target','108-SHO-T-B-L-A','black','L','12.0006','accessories');
+
+INSERT INTO roles(ID, NAME) VALUES(1, 'ROLE_ADMIN');
+INSERT INTO roles(ID, NAME) VALUES(2, 'ROLE_USER');
+
+INSERT INTO users(ID, USERNAME, PASSWORD, ENABLED) VALUES('b2da0888-2622-4572-89e6-ff70ba18c9ff', 'admin', 'admin', true);
+INSERT INTO users(ID, USERNAME, PASSWORD, ENABLED) VALUES('0aa400c3-cc54-4246-badb-3d8d2e03a412', 'user', 'user', true);
+
+INSERT INTO users_roles(USER_ID, ROLE_ID) VALUES('b2da0888-2622-4572-89e6-ff70ba18c9ff', 1);
+INSERT INTO users_roles(USER_ID, ROLE_ID) VALUES('b2da0888-2622-4572-89e6-ff70ba18c9ff', 2);
+INSERT INTO users_roles(USER_ID, ROLE_ID) VALUES('0aa400c3-cc54-4246-badb-3d8d2e03a412', 2);

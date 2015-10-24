@@ -1,6 +1,7 @@
 package com.douglaswhitehead;
 
 import org.h2.server.web.WebServlet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,6 +16,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import com.douglaswhitehead.service.UserService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -40,10 +43,15 @@ public class Application {
     	return registrationBean;
     }
     
+    // there is no transaction management in this example, would likely be added in a prod env
+    
     // security, would likely be replaced with production-ready settings in a prod env
     @Configuration
     @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
+    	
+    	@Autowired
+    	private UserService userService;
     	
     	@Override
     	protected void configure(HttpSecurity http) throws Exception {
@@ -74,6 +82,10 @@ public class Application {
     	@Override
     	public void configure(AuthenticationManagerBuilder auth) throws Exception {
     		auth
+    			.userDetailsService(userService);
+    		
+    		/*
+    		auth
     			.inMemoryAuthentication()
     				.withUser("admin")
     					.password("admin")
@@ -82,6 +94,7 @@ public class Application {
     				.withUser("user")
     					.password("user")
     					.roles("USER");
+    		*/
     	}
     	
     }

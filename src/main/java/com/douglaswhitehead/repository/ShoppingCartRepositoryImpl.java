@@ -220,7 +220,7 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		
 		BigDecimal basePrice = new BigDecimal("0");
 		BigDecimal voucherDiscount = new BigDecimal("1"); // this is hard-coded at 1 , which means 100%, 
-														  // which in effect means there is no discount, 
+														  // which in effect means there is no discount, and it
 														  // would likely be different in a real e-commerce system
 		BigDecimal priceWithTax = new BigDecimal("0");
 		BigDecimal cartTotal = new BigDecimal("0");

@@ -36,6 +36,10 @@ public class ShoppingCartControllerImpl extends BaseControllerImpl implements Sh
 		ShoppingCart cart = service.get(id);
 											// TODO: push cart, user objects
 		
+		if (cart == null) {
+			return "error";
+		}
+		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cart.getId().toString());
 		model.addAttribute("cartSize", calculateCartSize(cart));
