@@ -59,10 +59,12 @@ public abstract class BaseControllerImpl implements BaseController {
 	
 	protected boolean checkCartIdCookie(final HttpServletRequest request) {
 		boolean flag = false;
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().equals(CART_ID_COOKIE_NAME)) {
-				flag = true;
-				break;
+		if (request.getCookies() != null) {
+			for (Cookie cookie : request.getCookies()) {
+				if (cookie.getName().equals(CART_ID_COOKIE_NAME)) {
+					flag = true;
+					break;
+				}
 			}
 		}
 		return flag;
@@ -78,9 +80,11 @@ public abstract class BaseControllerImpl implements BaseController {
 	}
 	
 	protected Cookie getCartIdCookie(final HttpServletRequest request) {
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().equals(CART_ID_COOKIE_NAME)) {
-				return cookie;
+		if (request.getCookies() != null) {
+			for (Cookie cookie : request.getCookies()) {
+				if (cookie.getName().equals(CART_ID_COOKIE_NAME)) {
+					return cookie;
+				}
 			}
 		}
 		return null;

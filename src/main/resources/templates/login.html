@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    	<title>Login</title>
+	
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+		
+		<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+		
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			var digitalData = JSON.parse([[${digitalData}]]);
+			console.log("digitalData:%o",digitalData);
+		/*]]>*/	
+		</script>
+	</head>
+	<body>
+		<!-- <div th:replace="header :: header">&nbsp;</div>-->
+		
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+      		<div class="container">
+       			<form th:action="@{/login}" method="post">
+       				<legend>Please sign in.</legend>
+       				<div th:if="${param.error}">Invalid username or password.</div>
+       				<div><label>Username: <input type="text" name="username" /></label></div>
+       				<div><label>Password: <input type="text" name="password" /></label></div>
+       				<div><input type="submit" class="btn btn-success" value="Sign in" /></div>
+       			</form>
+      		</div>
+    	</div>
+
+    	<div class="container">
+	      	<div th:replace="footer :: footer">&nbsp;</div>
+    	</div>
+		
+	</body>
+</html>

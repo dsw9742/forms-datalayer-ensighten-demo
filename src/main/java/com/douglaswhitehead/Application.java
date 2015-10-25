@@ -1,11 +1,9 @@
 package com.douglaswhitehead;
 
-import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -35,14 +33,6 @@ public class Application {
     	return new ConcurrentMapCacheManager("cart");
     }
     
-    // db, would likely be replaced with production-ready db in a prod env
-    @Bean
-    public ServletRegistrationBean h2ServletRegistration() {
-    	ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
-    	registrationBean.addUrlMappings("/console/*");
-    	return registrationBean;
-    }
-    
     // there is no transaction management in this example, would likely be added in a prod env
     
     // security, would likely be replaced with production-ready settings in a prod env
@@ -57,21 +47,15 @@ public class Application {
     	protected void configure(HttpSecurity http) throws Exception {
     		http
     			.authorizeRequests()
-    				.antMatchers("/console/**")
-    				.permitAll()
-    				.and()
-    			.authorizeRequests()
-    				.anyRequest()
-    				.anonymous()
+    				.anyRequest().anonymous()
     				.and()
     			.csrf()
     				.disable()
     			.headers()
-    				.frameOptions()
-    				.disable()
+    				.frameOptions().disable()
     			.formLogin()
-    				//.loginPage("/login")
-    				//.failureUrl("/login?error")
+    				.loginPage("/login")
+    				.failureUrl("/login?error")
     				.permitAll()
     				.and()
     			.logout()
@@ -83,18 +67,6 @@ public class Application {
     	public void configure(AuthenticationManagerBuilder auth) throws Exception {
     		auth
     			.userDetailsService(userService);
-    		
-    		/*
-    		auth
-    			.inMemoryAuthentication()
-    				.withUser("admin")
-    					.password("admin")
-    					.roles("ADMIN", "USER")
-    					.and()
-    				.withUser("user")
-    					.password("user")
-    					.roles("USER");
-    		*/
     	}
     	
     }

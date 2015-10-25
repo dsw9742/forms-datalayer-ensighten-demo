@@ -41,7 +41,7 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.query(sql1, new String[] {username}, new RowMapper<UserDetails>() {
         	
             public UserDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
-            	UUID id = (UUID)rs.getObject(1);
+            	UUID id = UUID.fromString((String)rs.getObject(1));
                 String username = rs.getString(2);
                 String password = rs.getString(3);
                 boolean enabled = rs.getBoolean(4);

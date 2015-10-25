@@ -28,8 +28,11 @@
 	          			<form class="navbar-form navbar-right" th:if="${isAuthenticated == false}">
 	            			<a class="btn btn-info" href="/login">Sign in</a>
 	          			</form>
+	          			<form th:action="@{/logout}" method="post" class="navbar-form navbar-right" th:if="${isAuthenticated}">
+	          				<input type="submit" class="btn" value="Sign out" />
+	          			</form>
 	          			<form class="navbar-form navbar-right" th:if="${isAuthenticated}">
-	            			<a class="btn" href="#">My account (non-functional)</a>
+	            			<a class="btn" href="#">My account</a>
 	          			</form>
 	          			<form class="navbar-form navbar-right">
 	          				<a class="btn btn-success" th:href="'/carts/'+${cartId}"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<span th:text="${cartSize}"></span></a>
