@@ -56,7 +56,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
-		String digitalData = toString(dataLayer.list(products, request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataToString(dataLayer.list(products, request, device)); // TODO: push cart, user objects
 
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", cartId);
@@ -87,7 +87,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
-		String digitalData = toString(dataLayer.listByCategory(category, products, request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataToString(dataLayer.listByCategory(category, products, request, device)); // TODO: push cart, user objects
 
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", cartId);
@@ -118,7 +118,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
-		String digitalData = toString(dataLayer.get(product, request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataToString(dataLayer.get(product, request, device)); // TODO: push cart, user objects
 		
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", cartId);

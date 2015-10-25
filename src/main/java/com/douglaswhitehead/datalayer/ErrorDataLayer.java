@@ -10,8 +10,8 @@ import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 
-public interface IndexDataLayer {
+public interface ErrorDataLayer {
 
-	public DigitalData index(HttpServletRequest request, HttpServletResponse response, Device device, Model model, ShoppingCart cart, User user);
+	public DigitalData error(String error, String status, HttpServletRequest request, HttpServletResponse response, Device device, Model model, ShoppingCart cart, User user);
 	
 }

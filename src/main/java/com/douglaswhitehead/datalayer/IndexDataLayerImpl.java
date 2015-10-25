@@ -5,15 +5,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
+import com.douglaswhitehead.adapter.OrderAdapter;
+import com.douglaswhitehead.adapter.PrivacyAdapter;
+import com.douglaswhitehead.adapter.ProductsAdapter;
+import com.douglaswhitehead.adapter.ShoppingCartAdapter;
+import com.douglaswhitehead.adapter.UsersAdapter;
+import com.douglaswhitehead.model.ShoppingCart;
+import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 import com.douglaswhitehead.model.digitaldata.DigitalDataImpl;
 import com.douglaswhitehead.model.digitaldata.common.AttributesImpl;
 import com.douglaswhitehead.model.digitaldata.common.CategoryImpl;
+import com.douglaswhitehead.model.digitaldata.component.ComponentImpl;
+import com.douglaswhitehead.model.digitaldata.event.EventImpl;
+import com.douglaswhitehead.model.digitaldata.page.Page;
 import com.douglaswhitehead.model.digitaldata.page.PageImpl;
 import com.douglaswhitehead.model.digitaldata.page.PageInfoImpl;
 import com.douglaswhitehead.utility.DeviceDetector;
@@ -23,18 +35,40 @@ public class IndexDataLayerImpl implements IndexDataLayer {
 	
 	@Autowired
 	private DeviceDetector detector;
+	
+	@Autowired
+	private ProductsAdapter productsAdapter;
+	
+	@Autowired
+	private ShoppingCartAdapter cartAdapter;
+	
+	@Autowired
+	private OrderAdapter orderAdapter;
+	
+	@Autowired
+	private UsersAdapter usersAdapter;
+	
+	@Autowired
+	private PrivacyAdapter privacyAdapter;
 
-	public DigitalData index(final HttpServletRequest request, final Device device) {
-		DigitalData digitalData = new DigitalDataImpl.Builder()
+	@Override
+	public DigitalData index(final HttpServletRequest request, final HttpServletResponse response, 
+			final Device device, final Model model, final ShoppingCart cart, final User user) {
+		return new DigitalDataImpl.Builder()
 			.pageInstanceID("index-prod")
 			.page(pageAdapter(request, device))
+			.product(productsAdapter.adapt(null))
+			.cart(cartAdapter.adapt(cart))
+			.transaction(orderAdapter.adapt(null))
+			.event(new EventImpl[0])
+			.component(new ComponentImpl[0])
+			.user(usersAdapter.adapt(new User[]{user}))
+			.privacy(privacyAdapter.defaultPrivacy())
 			.version("1.0")
 		.build();
-		
-		return digitalData;
 	}
 	
-	private PageImpl pageAdapter(final HttpServletRequest request, final Device device) {
+	private Page pageAdapter(final HttpServletRequest request, final Device device) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyy");
 		Date issueDate = null;
 		Date effectiveDate = null;
@@ -45,7 +79,6 @@ public class IndexDataLayerImpl implements IndexDataLayer {
 			effectiveDate = simpleDateFormat.parse("12/29/2001");
 			expiryDate = simpleDateFormat.parse("12/30/2001");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

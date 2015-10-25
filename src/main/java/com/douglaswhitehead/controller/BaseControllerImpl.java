@@ -34,7 +34,7 @@ public abstract class BaseControllerImpl implements BaseController {
 	 * @param DigitalData data
 	 * @return String
 	 */
-	protected String toString(final DigitalData data) {
+	protected String digitalDataToString(final DigitalData data) {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		String output = null;

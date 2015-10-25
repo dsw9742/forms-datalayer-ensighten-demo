@@ -47,8 +47,7 @@ public class IndexControllerImpl extends BaseControllerImpl implements IndexCont
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		
-		String digitalData = toString(dataLayer.index(request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataToString(dataLayer.index(request, response, device, model, cart, user));
 		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cartId);
