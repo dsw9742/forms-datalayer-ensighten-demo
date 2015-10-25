@@ -8,30 +8,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.HtmlUtils;
 
-import com.douglaswhitehead.datalayer.IndexDataLayer;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.service.ShoppingCartService;
 
 @Controller
-@RequestMapping("/")
-public class IndexControllerImpl extends BaseControllerImpl implements IndexController {
-	
+public class ErrorControllerImpl extends BaseControllerImpl implements ErrorController {
+
 	@Autowired
 	private ShoppingCartService cartService;
 	
-	@Autowired
-	private IndexDataLayer dataLayer;
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public String index(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+	@Override
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
+	public String error(@RequestParam(value = "error", required = false) final String error, 
+			final HttpServletRequest request, final Device device, final HttpServletResponse response, 
+			final Model model) {
 		boolean auth = isAuthenticated();
 		String cartId;
 
@@ -48,14 +47,15 @@ public class IndexControllerImpl extends BaseControllerImpl implements IndexCont
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 		
-		String digitalData = toString(dataLayer.index(request, device)); // TODO: push cart, user objects
+		//String digitalData = toString(dataLayer.index(request, device)); // TODO: push cart, user objects
 		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cartId);
 		model.addAttribute("cartSize", calculateCartSize(cart));
-		model.addAttribute("digitalData", digitalData);
+		model.addAttribute("error", HtmlUtils.htmlEscape(error));
+		model.addAttribute("status", response.getStatus());
+		model.addAttribute("digitalData", ""); // TODO:
 		
-		return "index";
+		return "error";
 	}
-
 }

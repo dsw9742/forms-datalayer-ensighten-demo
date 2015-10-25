@@ -1,13 +1,15 @@
 package com.douglaswhitehead.controller;
 
-import java.security.Principal;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.ShoppingCartItem;
@@ -45,15 +47,20 @@ public abstract class BaseControllerImpl implements BaseController {
 	}
 	
 	/**
-	 * Returns true if a principal ("user") is authenticated, false otherwise.
+	 * Returns true if a principal is not anonymous, false otherwise.
 	 * 
-	 * @param Principal principal
 	 * @return boolean
 	 */
-	protected boolean isAuthenticated(final Principal principal) {
-		if ((principal != null) && (principal instanceof Authentication)) {
-			return ((Authentication)principal).isAuthenticated();
-		}
+	protected boolean isAuthenticated() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			if (auth instanceof AnonymousAuthenticationToken) {
+				return false;
+			}	
+			if (auth instanceof UsernamePasswordAuthenticationToken) {
+				return true;
+			}
+		}		
 		return false;
 	}
 	

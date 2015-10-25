@@ -35,7 +35,7 @@ public class User extends org.springframework.security.core.userdetails.User imp
 		builder.append(id);
 		builder.append(", getAuthorities()=");
 		builder.append(getAuthorities());
-		builder.append("Password: [PROTECTED] ");
+		builder.append(", getPassword()=[PROTECTED]");
 		builder.append(", getUsername()=");
 		builder.append(getUsername());
 		builder.append(", isEnabled()=");

@@ -99,7 +99,7 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		
 		// insert new cart items
 		
-		final List<ShoppingCartItem> items = cart.getCartItems();
+		final List<ShoppingCartItem> items = insertCart.getCartItems();
 
 		String sql2 = "INSERT INTO SHOPPING_CART_ITEMS(CART_ID, PRODUCT_ID, QUANTITY) VALUES(?, ?, ?)";
 		
@@ -151,11 +151,15 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 		
 		String sql2 = "DELETE FROM SHOPPING_CART_ITEMS WHERE CART_ID = ?";
 		
-		jdbcTemplate.update(sql2, new Object[]{updateCart.getId().toString()});
+		Object[] params2 = new Object[]{updateCart.getId().toString()};
+		
+		int[] types2 = new int[]{Types.CHAR};
+		
+		jdbcTemplate.update(sql2, params2, types2);
 		
 		// insert new cart items
 		
-		final List<ShoppingCartItem> items = cart.getCartItems();
+		final List<ShoppingCartItem> items = updateCart.getCartItems();
 
 		String sql3 = "INSERT INTO SHOPPING_CART_ITEMS(CART_ID, PRODUCT_ID, QUANTITY) VALUES(?, ?, ?)";
 		

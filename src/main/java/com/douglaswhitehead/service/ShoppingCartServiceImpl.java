@@ -27,7 +27,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	@Override
 	@Cacheable(value="cart")
 	public ShoppingCart get(final UUID id) {
-		return cartRepository.get(id);
+		return getOrCreateCart(id);
 	}
 	
 	@Override
@@ -37,18 +37,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Product product = productRepository.get(productId);
 		
 		List<ShoppingCartItem> items = cart.getCartItems();
-		List<ShoppingCartItem> itemsToAdd = new ArrayList<ShoppingCartItem>();
+		boolean match = false;
 		for(ShoppingCartItem item : items) {
 			if (item.getId() == productId) {
 				item.setQuantity(item.getQuantity()+1);
-			} else {
-				itemsToAdd.add(createItem(id, product));
-			}
+				match = true;
+				break;
+			} 
+			
 		}
-		if (items.size() == 0) {
+		if (!match) {
 			items.add(createItem(id, product));
 		}
-		items.addAll(itemsToAdd);
 		cart.setCartItems(items);
 		
 		cart = cartRepository.update(cart);
@@ -112,7 +112,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 				product.getCategory(),
 				1,
 				cartId
-			);
+		);
 	}
 
 }

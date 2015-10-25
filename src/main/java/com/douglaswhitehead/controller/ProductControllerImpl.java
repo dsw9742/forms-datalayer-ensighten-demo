@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.douglaswhitehead.datalayer.ProductsDataLayer;
 import com.douglaswhitehead.model.Product;
 import com.douglaswhitehead.model.ShoppingCart;
+import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.service.ProductService;
 import com.douglaswhitehead.service.ShoppingCartService;
 
@@ -37,7 +39,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	@Override
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(request.getUserPrincipal());
+		boolean auth = isAuthenticated();
 		String cartId;
 
 		if (!checkCartIdCookie(request)) {
@@ -49,6 +51,10 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		
 		List<Product> products = productService.list();
 		ShoppingCart cart = cartService.get(UUID.fromString(cartId));
+		User user = null;
+		if (auth) {
+			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
 		
 		String digitalData = toString(dataLayer.list(products, request, device)); // TODO: push cart, user objects
 
@@ -64,7 +70,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	@Override
 	@RequestMapping(value="/category/{category}", method=RequestMethod.GET)
 	public String listByCategory(@PathVariable("category") final String category, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(request.getUserPrincipal());
+		boolean auth = isAuthenticated();
 		String cartId;
 
 		if (!checkCartIdCookie(request)) {
@@ -76,6 +82,10 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		
 		List<Product> products = productService.listByCategory(category);
 		ShoppingCart cart = cartService.get(UUID.fromString(cartId));
+		User user = null;
+		if (auth) {
+			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
 		
 		String digitalData = toString(dataLayer.listByCategory(category, products, request, device)); // TODO: push cart, user objects
 
@@ -91,7 +101,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 	@Override
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String get(@PathVariable("id") final long id, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
-		boolean auth = isAuthenticated(request.getUserPrincipal());
+		boolean auth = isAuthenticated();
 		String cartId;
 
 		if (!checkCartIdCookie(request)) {
@@ -103,6 +113,10 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		
 		Product product = productService.get(id);
 		ShoppingCart cart = cartService.get(UUID.fromString(cartId));
+		User user = null;
+		if (auth) {
+			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
 		
 		String digitalData = toString(dataLayer.get(product, request, device)); // TODO: push cart, user objects
 		

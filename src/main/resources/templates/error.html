@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
     	<meta name="viewport" content="width=device-width, initial-scale=1" />
-    	<title>Login</title>
+    	<title>Home</title>
 	
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
@@ -19,18 +19,13 @@
 		</script>
 	</head>
 	<body>
-		<!-- <div th:replace="header :: header">&nbsp;</div>-->
+		<div th:replace="header :: header">&nbsp;</div>
 		
-		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
       		<div class="container">
-       			<form class="form-horizontal" th:action="@{/login}" method="post">
-       				<div id="legend"><legend class="">Login</legend></div>
-       				<div th:if="${param.error}">Invalid username or password.</div>
-       				<div><label>Username: <input type="text" name="username" /></label></div>
-       				<div><label>Password: <input type="text" name="password" /></label></div>
-       				<div><input type="submit" class="btn btn-success" value="Sign in" /></div>
-       			</form>
+        		<h1>An error occurred.</h1>
+        		<p>Error: <span th:text="${error}"></span></p>
+        		<p>Status: <span th:text="${status}"></span></p>
       		</div>
     	</div>
 

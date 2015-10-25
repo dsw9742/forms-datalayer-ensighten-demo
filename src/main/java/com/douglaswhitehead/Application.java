@@ -47,7 +47,8 @@ public class Application {
     	protected void configure(HttpSecurity http) throws Exception {
     		http
     			.authorizeRequests()
-    				.anyRequest().anonymous()
+    				.anyRequest()//.anonymous()
+    				.permitAll()
     				.and()
     			.csrf()
     				.disable()
