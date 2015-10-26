@@ -1,5 +1,6 @@
 package com.douglaswhitehead.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.UriUtils;
 
 import com.douglaswhitehead.datalayer.OrderDataLayer;
 import com.douglaswhitehead.model.Order;
@@ -36,13 +38,30 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		String cartId;
 
 		if (!checkCartIdCookie(request)) {
-			return "redirect:/orders/error";
+			String error = "";
+			try {
+				error = UriUtils.encodeQueryParam("No cartId cookie.", "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/error?error="+error;
 		} else {
 			Cookie cookie = getCartIdCookie(request);
 			cartId = cookie.getValue();
 		}
 		
 		ShoppingCart cart = cartService.get(UUID.fromString(cartId));
+		
+		if (cart.getCartItems() == null || cart.getCartItems().size() == 0) {
+			String error = "";
+			try {
+				error = UriUtils.encodeQueryParam("No items in cart to checkout.", "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:/error?error="+error;
+		}
+		
 		User user = null;
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -57,6 +76,9 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		return "orders/checkout";
 	}
 	
+	/**
+	 * TODO: collect address information and push into Order object.
+	 */
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
 	@Override
 	public String complete(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
@@ -64,7 +86,12 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		String cartId;
 
 		if (!checkCartIdCookie(request)) {
-			String error = "Order error.";
+			String error = "";
+			try {
+				error = UriUtils.encodeQueryParam("Order error.", "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			return "redirect:/error?error="+error;
 		} else {
 			Cookie cookie = getCartIdCookie(request);

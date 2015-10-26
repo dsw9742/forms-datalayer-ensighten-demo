@@ -25,11 +25,32 @@
 		<div class="jumbotron">
       		<div class="container">
        			<form class="form-horizontal" th:action="@{/login}" method="post">
-       				<div id="legend"><legend class="">Login</legend></div>
-       				<div th:if="${param.error}">Invalid username or password.</div>
-       				<div><label>Username: <input type="text" name="username" /></label></div>
-       				<div><label>Password: <input type="text" name="password" /></label></div>
-       				<div><input type="submit" class="btn btn-success" value="Sign in" /></div>
+       				<fieldset>
+	       				<div id="legend">
+	       					<legend class="">Login</legend>
+	       				</div>
+	       				<div th:if="${param.error}" style="color:red;">
+	  						Invalid username or password.
+	       				</div>
+	       				<div class="control-group">
+	       					<label for="username">Username: </label>
+	       					<div class="controls">
+	       						<input type="text" name="username" id="username"/>
+	       					</div>
+	       				</div>
+	       				<div class="control-group">
+	       					<label for="password">Password: </label>
+	       					<div class="controls">
+	       						<input type="text" name="password" id="password"/>
+	       					</div>
+	       				</div>
+	       				<hr>
+	       				<div class="control-group">
+	       					<div class="controls">
+	       						<input type="submit" class="btn btn-success" value="Sign in" />
+	       					</div>
+	       				</div>
+       				</fieldset>
        			</form>
       		</div>
     	</div>

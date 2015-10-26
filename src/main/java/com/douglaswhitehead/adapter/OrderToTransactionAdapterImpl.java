@@ -79,7 +79,7 @@ public class OrderToTransactionAdapterImpl implements OrderToTransactionAdapter 
 		return new TransactionImpl.Builder()
 			.transactionID(order.getId().toString())
 			.profile(new ProfileImpl.Builder()
-					.profileInfo(new ProfileInfoImpl.Builder()
+					/*.profileInfo(new ProfileInfoImpl.Builder()
 							.profileID()
 							.userName()
 							.email()
@@ -90,7 +90,7 @@ public class OrderToTransactionAdapterImpl implements OrderToTransactionAdapter 
 					.address()
 					.shippingAddress()
 					.social()
-					.attributes()
+					.attributes()*/
 				.build())
 			.attributes(new AttributesImpl.Builder().build()) // empty attributes object
 			.item(items) // get items built above

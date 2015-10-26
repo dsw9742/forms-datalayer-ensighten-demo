@@ -26,7 +26,62 @@
     	<div class="container">
     		<form class="form-horizontal" th:action="@{/orders/complete}" method="post">
     		
-    			<p>ADD SHIPPING FIELDS HERE.</p>
+    			<fieldset>
+		          <div id="legend">
+		            <legend class="">Shipping Information</legend>
+		          </div>
+		          
+		          <!-- Recipient's Name -->
+		          <div class="control-group">
+		            <label class="control-label" for="recipientName">Recipient's Name</label>
+		            <div class="controls">
+		              <input type="text" id="recipientName" name="recipientName" placeholder="" class="input-xlarge">
+		            </div>
+		          </div>
+		          
+		          <!-- Address Line 1 -->
+		          <div class="control-group">
+		            <label class="control-label" for="line1">Address (line 1)</label>
+		            <div class="controls">
+		              <input type="text" id="line1" name="line1" placeholder="" class="input-xlarge">
+		            </div>
+		          </div>
+		          
+		          <!-- Address Line 2 -->
+		          <div class="control-group">
+		            <label class="control-label" for="line2">Address (line 2)</label>
+		            <div class="controls">
+		              <input type="text" id="line2" name="line2" placeholder="" class="input-xlarge">
+		            </div>
+		          </div>
+		          
+		          <!-- City, State/Province, Postal Code -->
+		          <div class="control-group">
+		            <label class="control-label" for="city">City</label>
+		            <div class="controls">
+		              <input type="text" id="city" name="city" placeholder="" class="input-xlarge">
+		            </div>
+		            <label class="control-label" for="stateProvince">State</label>
+		            <div class="controls">
+		              <input type="text" id="stateProvince" name="stateProvince" placeholder="" class="input-xlarge">
+		            </div>
+		            <label class="control-label" for="postalCode">Postal Code</label>
+		            <div class="controls">
+		              <input type="text" id="postalCode" name="postalCode" placeholder="" class="input-xlarge">
+		            </div>
+		          </div>
+		          
+		          <!-- Country -->
+		          <div class="control-group">
+		            <label class="control-label" for="country">Country</label>
+		            <div class="controls">
+		              <input type="text" id="country" name="country" placeholder="" class="input-xlarge">
+		            </div>
+		          </div>
+		          
+		        </fieldset>
+		        
+		        <hr>
     		
 		        <fieldset>
 		          <div id="legend">

@@ -36,10 +36,10 @@ public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 			User ceddlUser = new UserImpl.Builder()
 					.profile(new ProfileImpl[]{
 						new ProfileImpl.Builder() // in our demo app, each user can only have one profile, so build just one profile here
-								.profileInfo()
+								/*.profileInfo()
 								.address()
 								.social(new SocialImpl.Builder().build()) // empty social object
-								.attributes(new AttributesImpl.Builder().build()) // empty attributes object
+								.attributes(new AttributesImpl.Builder().build()) // empty attributes object*/
 							.build()
 					})
 					.segment(new SegmentImpl.Builder().build()) // empty segment object
