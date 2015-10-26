@@ -26,6 +26,7 @@ public class ShoppingCartToCartAdapterImpl implements ShoppingCartToCartAdapter 
 
 	@Override
 	public Cart adapt(ShoppingCart cart) {
+		
 		// if shopping cart is null, be sure to return an empty CEDDL cart object
 		if (cart == null) {
 			return new CartImpl.Builder().build();
