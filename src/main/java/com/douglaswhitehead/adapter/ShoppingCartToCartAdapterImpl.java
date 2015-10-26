@@ -1,7 +1,5 @@
 package com.douglaswhitehead.adapter;
 
-import java.math.BigDecimal;
-
 import org.springframework.stereotype.Component;
 
 import com.douglaswhitehead.model.ShoppingCart;
@@ -24,7 +22,7 @@ import com.douglaswhitehead.model.digitaldata.product.ProductInfoImpl;
  *
  */
 @Component
-public class ShoppingCartAdapterImpl implements ShoppingCartAdapter {
+public class ShoppingCartToCartAdapterImpl implements ShoppingCartToCartAdapter {
 
 	@Override
 	public Cart adapt(ShoppingCart cart) {
@@ -73,7 +71,7 @@ public class ShoppingCartAdapterImpl implements ShoppingCartAdapter {
 			items[i] = item;
 		}
 		
-		// build CEDDL cart
+		// build and return CEDDL cart
 		return new CartImpl.Builder()
 			.cartID(cart.getId().toString())
 			.attributes(new AttributesImpl.Builder().build()) // empty attributes object

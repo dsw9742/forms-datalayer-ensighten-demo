@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.douglaswhitehead.model.digitaldata.product.Product;
 
 @Component
-public class ProductsAdapterImpl implements ProductsAdapter {
+public class ProductsToProductsAdapterImpl implements ProductsToProductsAdapter {
 
 	@Override
 	public Product[] adapt(com.douglaswhitehead.model.Product[] product) {

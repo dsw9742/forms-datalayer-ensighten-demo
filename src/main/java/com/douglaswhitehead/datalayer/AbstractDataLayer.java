@@ -2,11 +2,11 @@ package com.douglaswhitehead.datalayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.douglaswhitehead.adapter.OrderAdapter;
+import com.douglaswhitehead.adapter.OrderToTransactionAdapter;
 import com.douglaswhitehead.adapter.PrivacyAdapter;
-import com.douglaswhitehead.adapter.ProductsAdapter;
-import com.douglaswhitehead.adapter.ShoppingCartAdapter;
-import com.douglaswhitehead.adapter.UsersAdapter;
+import com.douglaswhitehead.adapter.ProductsToProductsAdapter;
+import com.douglaswhitehead.adapter.ShoppingCartToCartAdapter;
+import com.douglaswhitehead.adapter.UsersToUsersAdapter;
 import com.douglaswhitehead.utility.DeviceDetector;
 
 public abstract class AbstractDataLayer {
@@ -17,16 +17,16 @@ public abstract class AbstractDataLayer {
 	protected DeviceDetector detector;
 	
 	@Autowired
-	protected ProductsAdapter productsAdapter;
+	protected ProductsToProductsAdapter productsAdapter;
 	
 	@Autowired
-	protected ShoppingCartAdapter cartAdapter;
+	protected ShoppingCartToCartAdapter cartAdapter;
 	
 	@Autowired
-	protected OrderAdapter orderAdapter;
+	protected OrderToTransactionAdapter orderAdapter;
 	
 	@Autowired
-	protected UsersAdapter usersAdapter;
+	protected UsersToUsersAdapter usersAdapter;
 	
 	@Autowired
 	protected PrivacyAdapter privacyAdapter;

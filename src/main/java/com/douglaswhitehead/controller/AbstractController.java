@@ -12,7 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.douglaswhitehead.adapter.DigitalDataAdapter;
+import com.douglaswhitehead.adapter.DigitalDataToStringAdapter;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.ShoppingCartItem;
 import com.douglaswhitehead.service.ShoppingCartService;
@@ -29,7 +29,7 @@ public abstract class AbstractController {
 	 * Digital Data Adapter - converts DigitalData object to String
 	 */
 	@Autowired
-	protected DigitalDataAdapter digitalDataAdapter;
+	protected DigitalDataToStringAdapter digitalDataAdapter;
 	
 	/**
 	 * Shopping Cart Service

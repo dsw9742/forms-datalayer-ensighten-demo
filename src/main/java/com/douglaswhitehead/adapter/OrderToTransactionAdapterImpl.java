@@ -6,7 +6,7 @@ import com.douglaswhitehead.model.Order;
 import com.douglaswhitehead.model.digitaldata.transaction.Transaction;
 
 @Component
-public class OrderAdapterImpl implements OrderAdapter {
+public class OrderToTransactionAdapterImpl implements OrderToTransactionAdapter {
 
 	@Override
 	public Transaction adapt(Order order) {

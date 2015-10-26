@@ -8,11 +8,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class DigitalDataAdapterImpl implements DigitalDataAdapter {
+public class DigitalDataToStringAdapterImpl implements DigitalDataToStringAdapter {
 	
 	private ObjectMapper mapper;
 	
-	public DigitalDataAdapterImpl() {
+	public DigitalDataToStringAdapterImpl() {
 		mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
 	}
