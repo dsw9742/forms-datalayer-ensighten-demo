@@ -25,9 +25,15 @@ public abstract class AbstractController {
 	
 	private static final String CART_ID_COOKIE_PATH = "/";
 	
+	/**
+	 * Digital Data Adapter - converts DigitalData object to String
+	 */
 	@Autowired
 	protected DigitalDataAdapter digitalDataAdapter;
 	
+	/**
+	 * Shopping Cart Service
+	 */
 	@Autowired
 	protected ShoppingCartService cartService;
 	

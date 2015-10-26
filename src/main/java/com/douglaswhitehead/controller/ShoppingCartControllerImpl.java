@@ -29,7 +29,6 @@ public class ShoppingCartControllerImpl extends AbstractController implements Sh
 	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
 	public String get(@PathVariable("id") final UUID id, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		boolean auth = isAuthenticated();
-
 		if (!checkCartIdCookie(request)) {
 			setNewCartIdCookie(request, response);
 		}
@@ -52,31 +51,32 @@ public class ShoppingCartControllerImpl extends AbstractController implements Sh
 
 	@RequestMapping(value = "/{id}/addToCart/{productId}", method=RequestMethod.GET)
 	public String addToCart(@PathVariable("id") final UUID id, @PathVariable("productId") final long productId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
-		//boolean auth = isAuthenticated();
-
-		Cookie cookie = getCartIdCookie(request);
-		setCartIdCookieExpiry(cookie);
-		response.addCookie(cookie);
-		
-		ShoppingCart cart = cartService.addToCart(id, productId);
-		/*User user = null;
-		if (auth) {
-			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String cartId;
+		if (!checkCartIdCookie(request)) {
+			cartId = setNewCartIdCookie(request, response);
+		} else {
+			Cookie cookie = getCartIdCookie(request);
+			cartId = cookie.getValue();
 		}
-											// TODO: push cart, user objects
 		
-		model.addAttribute("isAuthenticated", auth);
-		model.addAttribute("cartId", cart.getId().toString());
-		model.addAttribute("cartSize", calculateCartSize(cart));
-		model.addAttribute("cart", cart);
-		model.addAttribute("digitalData", ""); // TODO:*/
+		cartService.addToCart(UUID.fromString(cartId), productId);
 	
-		return "redirect:/carts/"+id.toString();
+		return "redirect:/carts/"+cartId;
 	}
 	
 	@RequestMapping(value = "/{id}/removeFromCart/{productId}", method=RequestMethod.GET)
 	public String removeFromCart(@PathVariable("id") final UUID id, @PathVariable("productId") final long productId, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
-		return null; // TODO:
+		String cartId;
+		if (!checkCartIdCookie(request)) {
+			cartId = setNewCartIdCookie(request, response);
+		} else {
+			Cookie cookie = getCartIdCookie(request);
+			cartId = cookie.getValue();
+		}
+		
+		cartService.removeFromCart(UUID.fromString(cartId), productId);
+	
+		return "redirect:/carts/"+cartId;
 	}
 	
 }

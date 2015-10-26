@@ -1,6 +1,5 @@
 package com.douglaswhitehead.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,17 +61,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		ShoppingCart cart = getOrCreateCart(id);
 		
 		List<ShoppingCartItem> items = cart.getCartItems();
-		List<ShoppingCartItem> itemsToRemove = new ArrayList<ShoppingCartItem>();
 		for(ShoppingCartItem item : items) {
 			if (item.getId() == productId) {
 				item.setQuantity(item.getQuantity()-1);
-				if (item.getQuantity() == 0) {
-					itemsToRemove.add(item);
-				}
+				break;
 			}
-		}
-		if (itemsToRemove.size() > 0) {
-			items.removeAll(itemsToRemove);
 		}
 		cart.setCartItems(items);
 		
@@ -82,6 +75,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	}
 
 	@Override
+	@CacheEvict(value="cart", allEntries=false, key="#id")
 	public UUID delete(final UUID id) {
 		return cartRepository.delete(id);
 	}
