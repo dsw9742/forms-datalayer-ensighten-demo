@@ -1,10 +1,13 @@
 package com.douglaswhitehead.adapter;
 
+import org.springframework.stereotype.Component;
+
 import com.douglaswhitehead.model.digitaldata.privacy.AccessCategory;
 import com.douglaswhitehead.model.digitaldata.privacy.AccessCategoryImpl;
 import com.douglaswhitehead.model.digitaldata.privacy.Privacy;
 import com.douglaswhitehead.model.digitaldata.privacy.PrivacyImpl;
 
+@Component
 public class PrivacyAdapterImpl implements PrivacyAdapter {
 
 	@Override

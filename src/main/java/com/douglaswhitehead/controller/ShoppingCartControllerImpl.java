@@ -58,8 +58,8 @@ public class ShoppingCartControllerImpl extends AbstractController implements Sh
 		setCartIdCookieExpiry(cookie);
 		response.addCookie(cookie);
 		
-		/*ShoppingCart cart = cartService.addToCart(id, productId);
-		User user = null;
+		ShoppingCart cart = cartService.addToCart(id, productId);
+		/*User user = null;
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
