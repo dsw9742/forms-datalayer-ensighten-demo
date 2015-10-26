@@ -12,12 +12,11 @@ import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
 
 @Component
-public class ErrorDataLayerImpl extends AbstractDataLayer implements ErrorDataLayer {
+public class ShoppingCartDataLayerImpl extends AbstractDataLayer implements ShoppingCartDataLayer {
 
 	@Override
-	public DigitalData error(final String error, final String status, final HttpServletRequest request, 
-			final HttpServletResponse response, final Device device, final Model model, 
-			final ShoppingCart cart, final User user) {
+	public DigitalData get(final HttpServletRequest request, final HttpServletResponse response, 
+			final Device device, final Model model, final ShoppingCart cart, final User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.HtmlUtils;
 
+import com.douglaswhitehead.datalayer.ErrorDataLayer;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.User;
-import com.douglaswhitehead.service.ShoppingCartService;
 
 @Controller
-public class ErrorControllerImpl extends BaseControllerImpl implements ErrorController {
+public class ErrorControllerImpl extends AbstractController implements ErrorController {
 
 	@Autowired
-	private ShoppingCartService cartService;
+	private ErrorDataLayer dataLayer;
 	
 	@Override
 	@RequestMapping(value = "/error", method = RequestMethod.GET)
@@ -46,15 +46,14 @@ public class ErrorControllerImpl extends BaseControllerImpl implements ErrorCont
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		
-		//String digitalData = toString(dataLayer.index(request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataAdapter.adapt(dataLayer.error(HtmlUtils.htmlEscape(error), String.valueOf(response.getStatus()), request, response, device, model, cart, user));
 		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cartId);
 		model.addAttribute("cartSize", calculateCartSize(cart));
 		model.addAttribute("error", HtmlUtils.htmlEscape(error));
 		model.addAttribute("status", response.getStatus());
-		model.addAttribute("digitalData", ""); // TODO:
+		model.addAttribute("digitalData", digitalData);
 		
 		return "error";
 	}

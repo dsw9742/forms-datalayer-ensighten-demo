@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 
 public interface OrderController {
 
-	String payment(HttpServletRequest request, Device device, HttpServletResponse response, Model model);
+	String checkout(HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 
 	String complete(HttpServletRequest request, Device device, HttpServletResponse response, Model model);
 

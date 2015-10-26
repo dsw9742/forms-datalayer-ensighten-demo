@@ -21,17 +21,13 @@ import com.douglaswhitehead.model.Product;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.service.ProductService;
-import com.douglaswhitehead.service.ShoppingCartService;
 
 @Controller
 @RequestMapping("/products")
-public class ProductControllerImpl extends BaseControllerImpl implements ProductController {
+public class ProductControllerImpl extends AbstractController implements ProductController {
 	
 	@Autowired
 	private ProductService productService;
-	
-	@Autowired
-	private ShoppingCartService cartService;
 	
 	@Autowired
 	private ProductsDataLayer dataLayer;
@@ -55,8 +51,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		
-		String digitalData = digitalDataToString(dataLayer.list(products, request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataAdapter.adapt(dataLayer.list(products, request, response, device, model, cart, user));
 
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", cartId);
@@ -86,8 +81,7 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		
-		String digitalData = digitalDataToString(dataLayer.listByCategory(category, products, request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataAdapter.adapt(dataLayer.listByCategory(category, products, request, response, device, model, cart, user));
 
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", cartId);
@@ -112,13 +106,15 @@ public class ProductControllerImpl extends BaseControllerImpl implements Product
 		}
 		
 		Product product = productService.get(id);
+		if (product == null) {
+			return "redirect:/error?error="+"No such product.";
+		}
 		ShoppingCart cart = cartService.get(UUID.fromString(cartId));
 		User user = null;
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		
-		String digitalData = digitalDataToString(dataLayer.get(product, request, device)); // TODO: push cart, user objects
+		String digitalData = digitalDataAdapter.adapt(dataLayer.get(product, request, response, device, model, cart, user));
 		
 		model.addAttribute("isAuthenticated",auth);
 		model.addAttribute("cartId", cartId);

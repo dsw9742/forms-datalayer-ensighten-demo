@@ -7,16 +7,10 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.douglaswhitehead.adapter.OrderAdapter;
-import com.douglaswhitehead.adapter.PrivacyAdapter;
-import com.douglaswhitehead.adapter.ProductsAdapter;
-import com.douglaswhitehead.adapter.ShoppingCartAdapter;
-import com.douglaswhitehead.adapter.UsersAdapter;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.User;
 import com.douglaswhitehead.model.digitaldata.DigitalData;
@@ -28,35 +22,16 @@ import com.douglaswhitehead.model.digitaldata.event.EventImpl;
 import com.douglaswhitehead.model.digitaldata.page.Page;
 import com.douglaswhitehead.model.digitaldata.page.PageImpl;
 import com.douglaswhitehead.model.digitaldata.page.PageInfoImpl;
-import com.douglaswhitehead.utility.DeviceDetector;
 
 @Component
-public class IndexDataLayerImpl implements IndexDataLayer {
-	
-	@Autowired
-	private DeviceDetector detector;
-	
-	@Autowired
-	private ProductsAdapter productsAdapter;
-	
-	@Autowired
-	private ShoppingCartAdapter cartAdapter;
-	
-	@Autowired
-	private OrderAdapter orderAdapter;
-	
-	@Autowired
-	private UsersAdapter usersAdapter;
-	
-	@Autowired
-	private PrivacyAdapter privacyAdapter;
+public class IndexDataLayerImpl extends AbstractDataLayer implements IndexDataLayer {
 
 	@Override
 	public DigitalData index(final HttpServletRequest request, final HttpServletResponse response, 
 			final Device device, final Model model, final ShoppingCart cart, final User user) {
 		return new DigitalDataImpl.Builder()
 			.pageInstanceID("index-prod")
-			.page(pageAdapter(request, device))
+			.page(indexPageAdapter(request, device))
 			.product(productsAdapter.adapt(null))
 			.cart(cartAdapter.adapt(cart))
 			.transaction(orderAdapter.adapt(null))
@@ -64,11 +39,11 @@ public class IndexDataLayerImpl implements IndexDataLayer {
 			.component(new ComponentImpl[0])
 			.user(usersAdapter.adapt(new User[]{user}))
 			.privacy(privacyAdapter.defaultPrivacy())
-			.version("1.0")
+			.version(VERSION)
 		.build();
 	}
 	
-	private Page pageAdapter(final HttpServletRequest request, final Device device) {
+	private Page indexPageAdapter(final HttpServletRequest request, final Device device) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyy");
 		Date issueDate = null;
 		Date effectiveDate = null;
@@ -86,12 +61,12 @@ public class IndexDataLayerImpl implements IndexDataLayer {
 			.pageInfo(new PageInfoImpl.Builder()
 					.pageID("index")
 					.pageName("index")
-					.destinationURL("http://localhost/") // doesn't work well, plan to overwrite this value from client side
-					.referringURL(request.getHeader("referer")) // doesn't work well, plan to overwrite this value from client side
+					.destinationURL("http://localhost/") // doesn't work well server-side, plan to overwrite this value from client side
+					.referringURL(request.getHeader("referer")) // doesn't work well server-side, plan to overwrite this value from client side
 					.sysEnv(detector.detect(device))
 					.variant("1")
 					.version("1.0")
-					.breadcrumbs(new String[]{}) // doesn't work well, plan to overwrite this value from client side
+					.breadcrumbs(new String[]{}) // doesn't work well server-side, plan to overwrite this value from client side
 					.author("Test McGee").security(new String[]{"Analytics"})
 					.issueDate(issueDate)
 					.effectiveDate(effectiveDate)

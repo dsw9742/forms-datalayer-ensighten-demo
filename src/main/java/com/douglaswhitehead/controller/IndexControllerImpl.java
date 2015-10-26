@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.douglaswhitehead.datalayer.IndexDataLayer;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.User;
-import com.douglaswhitehead.service.ShoppingCartService;
 
 @Controller
 @RequestMapping("/")
-public class IndexControllerImpl extends BaseControllerImpl implements IndexController {
-	
-	@Autowired
-	private ShoppingCartService cartService;
+public class IndexControllerImpl extends AbstractController implements IndexController {
 	
 	@Autowired
 	private IndexDataLayer dataLayer;
@@ -47,7 +42,7 @@ public class IndexControllerImpl extends BaseControllerImpl implements IndexCont
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
-		String digitalData = digitalDataToString(dataLayer.index(request, response, device, model, cart, user));
+		String digitalData = digitalDataAdapter.adapt(dataLayer.index(request, response, device, model, cart, user));
 		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cartId);

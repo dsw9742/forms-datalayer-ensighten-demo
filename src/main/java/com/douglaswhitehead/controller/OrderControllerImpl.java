@@ -16,24 +16,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.douglaswhitehead.datalayer.OrderDataLayer;
 import com.douglaswhitehead.model.Order;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.ShoppingCartItem;
 import com.douglaswhitehead.model.User;
-import com.douglaswhitehead.service.ShoppingCartService;
 
 @Controller
 @RequestMapping("/orders")
-public class OrderControllerImpl extends BaseControllerImpl implements OrderController {
+public class OrderControllerImpl extends AbstractController implements OrderController {
 	
 	@Autowired
-	private ShoppingCartService cartService;
-	
-	// TODO: add component/datalayer, model/digitalData
+	private OrderDataLayer dataLayer;
 
-	@RequestMapping(value = "/pay", method = RequestMethod.GET)
+	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
 	@Override
-	public String payment(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+	public String checkout(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		boolean auth = isAuthenticated();
 		String cartId;
 
@@ -49,13 +47,14 @@ public class OrderControllerImpl extends BaseControllerImpl implements OrderCont
 		if (auth) {
 			user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
+		String digitalData = digitalDataAdapter.adapt(dataLayer.checkout(request, response, device, model, cart, user));
 		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cart.getId().toString());
 		model.addAttribute("cartSize", calculateCartSize(cart));
-		model.addAttribute("digitalData", ""); // TODO:
+		model.addAttribute("digitalData", digitalData);
 		
-		return "orders/pay";
+		return "orders/checkout";
 	}
 	
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
@@ -104,11 +103,13 @@ public class OrderControllerImpl extends BaseControllerImpl implements OrderCont
 					  cart.getCurrency(), cart.getTaxRate(), cart.getShipping(), cart.getShippingMethod(), 
 					  cart.getPriceWithTax(), cart.getCartTotal(), cart.getCartItems());
 		
+		String digitalData = digitalDataAdapter.adapt(dataLayer.complete(request, response, device, model, cart, order, user));
+		
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cart.getId().toString());
 		model.addAttribute("cartSize", 0); // cart items is now 0
 		model.addAttribute("order", order);
-		model.addAttribute("digitalData", ""); // TODO:
+		model.addAttribute("digitalData", digitalData);
 		
 		return "orders/complete";
 	}
