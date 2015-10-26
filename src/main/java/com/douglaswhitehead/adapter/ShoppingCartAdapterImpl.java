@@ -62,7 +62,8 @@ public class ShoppingCartAdapterImpl implements ShoppingCartAdapter {
 							.taxRate(cart.getTaxRate()) // using same tax rate as from cart assumes no items require separate tax rate (e.g. alcohol) 
 							//.shipping() // calculated at time of transaction
 							//.shippingMethod() // calculated at time of transaction
-							.priceWithTax(new BigDecimal("0").add(shoppingCartItem.getPrice().multiply(cart.getTaxRate())))
+							.priceWithTax(shoppingCartItem.getPrice() // base price
+									.add(shoppingCartItem.getPrice().multiply(cart.getTaxRate()))) // plus taxes
 							//.cartTotal() // not applicable to price of individual items
 						.build())
 					.linkedProduct(new ProductImpl[0]) // not applicable, no linked products in our demo retail store, but we want to return an 
