@@ -19,7 +19,7 @@ import com.douglaswhitehead.model.digitaldata.product.ProductInfoImpl;
 public class ProductsToProductsAdapterImpl implements ProductsToProductsAdapter {
 
 	@Override
-	public Product[] adapt(com.douglaswhitehead.model.Product[] products) {
+	public Product[] adapt(final com.douglaswhitehead.model.Product[] products) {
 		
 		// if products is null, be sure to return an empty CEDDL products array
 		if (products == null) {

@@ -20,10 +20,12 @@ public class Order implements Serializable {
 	private BigDecimal priceWithTax;
 	private BigDecimal orderTotal;
 	private List<ShoppingCartItem> orderItems;
+	private Address shippingAddress;
 	
 	public Order(final UUID id, final BigDecimal basePrice, final String voucherCode, final BigDecimal voucherDiscount,
 			final String currency, final BigDecimal taxRate, final BigDecimal shipping, final String shippingMethod,
-			final BigDecimal priceWithTax, final BigDecimal orderTotal, final List<ShoppingCartItem> orderItems) {
+			final BigDecimal priceWithTax, final BigDecimal orderTotal, final List<ShoppingCartItem> orderItems, final
+			Address shippingAddress) {
 		this.id = id;
 		this.basePrice = basePrice;
 		this.voucherCode = voucherCode;
@@ -35,6 +37,7 @@ public class Order implements Serializable {
 		this.priceWithTax = priceWithTax;
 		this.orderTotal = orderTotal;
 		this.orderItems = orderItems;
+		this.shippingAddress = shippingAddress;
 	}
 
 	/**
@@ -191,6 +194,20 @@ public class Order implements Serializable {
 		this.orderItems = orderItems;
 	}
 
+	/**
+	 * @return the shippingAddress
+	 */
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	/**
+	 * @param shippingAddress the shippingAddress to set
+	 */
+	public void setShippingAddress(Address shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -199,12 +216,13 @@ public class Order implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((basePrice == null) ? 0 : basePrice.hashCode());
-		result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
-		result = prime * result + ((orderTotal == null) ? 0 : orderTotal.hashCode());
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
+		result = prime * result + ((orderTotal == null) ? 0 : orderTotal.hashCode());
 		result = prime * result + ((priceWithTax == null) ? 0 : priceWithTax.hashCode());
 		result = prime * result + ((shipping == null) ? 0 : shipping.hashCode());
+		result = prime * result + ((shippingAddress == null) ? 0 : shippingAddress.hashCode());
 		result = prime * result + ((shippingMethod == null) ? 0 : shippingMethod.hashCode());
 		result = prime * result + ((taxRate == null) ? 0 : taxRate.hashCode());
 		result = prime * result + ((voucherCode == null) ? 0 : voucherCode.hashCode());
@@ -229,16 +247,6 @@ public class Order implements Serializable {
 				return false;
 		} else if (!basePrice.equals(other.basePrice))
 			return false;
-		if (orderItems == null) {
-			if (other.orderItems != null)
-				return false;
-		} else if (!orderItems.equals(other.orderItems))
-			return false;
-		if (orderTotal == null) {
-			if (other.orderTotal != null)
-				return false;
-		} else if (!orderTotal.equals(other.orderTotal))
-			return false;
 		if (currency == null) {
 			if (other.currency != null)
 				return false;
@@ -249,6 +257,16 @@ public class Order implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (orderItems == null) {
+			if (other.orderItems != null)
+				return false;
+		} else if (!orderItems.equals(other.orderItems))
+			return false;
+		if (orderTotal == null) {
+			if (other.orderTotal != null)
+				return false;
+		} else if (!orderTotal.equals(other.orderTotal))
+			return false;
 		if (priceWithTax == null) {
 			if (other.priceWithTax != null)
 				return false;
@@ -258,6 +276,11 @@ public class Order implements Serializable {
 			if (other.shipping != null)
 				return false;
 		} else if (!shipping.equals(other.shipping))
+			return false;
+		if (shippingAddress == null) {
+			if (other.shippingAddress != null)
+				return false;
+		} else if (!shippingAddress.equals(other.shippingAddress))
 			return false;
 		if (shippingMethod == null) {
 			if (other.shippingMethod != null)
@@ -310,6 +333,8 @@ public class Order implements Serializable {
 		builder.append(orderTotal);
 		builder.append(", orderItems=");
 		builder.append(orderItems);
+		builder.append(", shippingAddress=");
+		builder.append(shippingAddress);
 		builder.append("]");
 		return builder.toString();
 	}

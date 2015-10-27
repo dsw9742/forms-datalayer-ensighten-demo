@@ -8,7 +8,9 @@ import com.douglaswhitehead.model.digitaldata.transaction.TotalImpl;
 import com.douglaswhitehead.model.digitaldata.transaction.TransactionImpl;
 import com.douglaswhitehead.model.digitaldata.user.ProfileImpl;
 import com.douglaswhitehead.model.digitaldata.user.ProfileInfoImpl;
+import com.douglaswhitehead.model.digitaldata.user.SocialImpl;
 import com.douglaswhitehead.model.digitaldata.cart.PriceImpl;
+import com.douglaswhitehead.model.digitaldata.common.AddressImpl;
 import com.douglaswhitehead.model.digitaldata.common.AttributesImpl;
 import com.douglaswhitehead.model.digitaldata.common.CategoryImpl;
 import com.douglaswhitehead.model.digitaldata.common.Item;
@@ -28,7 +30,7 @@ import com.douglaswhitehead.model.digitaldata.transaction.Transaction;
 public class OrderToTransactionAdapterImpl implements OrderToTransactionAdapter {
 
 	@Override
-	public Transaction adapt(Order order) {
+	public Transaction adapt(final Order order) {
 
 		// if order is null, be sure to return an empty CEDDL transaction object
 		if (order == null) {
@@ -79,18 +81,19 @@ public class OrderToTransactionAdapterImpl implements OrderToTransactionAdapter 
 		return new TransactionImpl.Builder()
 			.transactionID(order.getId().toString())
 			.profile(new ProfileImpl.Builder()
-					/*.profileInfo(new ProfileInfoImpl.Builder()
-							.profileID()
-							.userName()
-							.email()
-							.language()
-							.returningStatus()
-							.type()
+					.profileInfo(new ProfileInfoImpl.Builder().build()) // empty profileInfo object is OK for us,
+																		// since we'll have this info in CEDDL user[]
+					.address(new AddressImpl.Builder().build()) // empty address object, same reasoning as above
+					.shippingAddress(new AddressImpl.Builder()
+							.line1(order.getShippingAddress().getLine1())
+							.line2(order.getShippingAddress().getLine2())
+							.city(order.getShippingAddress().getCity())
+							.stateProvince(order.getShippingAddress().getStateProvince())
+							.postalCode(order.getShippingAddress().getPostalCode())
+							.country(order.getShippingAddress().getCountry())
 						.build())
-					.address()
-					.shippingAddress()
-					.social()
-					.attributes()*/
+					.social(new SocialImpl.Builder().build()) // empty social object, same reasoning as above
+					.attributes(new AttributesImpl.Builder().build()) // empty attributes object, same reasoning as above
 				.build())
 			.attributes(new AttributesImpl.Builder().build()) // empty attributes object
 			.item(items) // get items built above

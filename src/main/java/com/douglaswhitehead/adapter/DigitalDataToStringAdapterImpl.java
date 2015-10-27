@@ -18,7 +18,7 @@ public class DigitalDataToStringAdapterImpl implements DigitalDataToStringAdapte
 	}
 
 	@Override
-	public String adapt(DigitalData digitalData) {
+	public String adapt(final DigitalData digitalData) {
 		String output = null;
 		try {
 			output = mapper.writeValueAsString(digitalData);

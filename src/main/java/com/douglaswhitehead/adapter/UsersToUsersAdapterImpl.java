@@ -20,7 +20,7 @@ import com.douglaswhitehead.model.digitaldata.user.UserImpl;
 public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 
 	@Override
-	public User[] adapt(com.douglaswhitehead.model.User[] users) {
+	public User[] adapt(final com.douglaswhitehead.model.User[] users) {
 
 		// if users is null, be sure to return an empty CEDDL users array
 		if (users == null) {
@@ -38,6 +38,7 @@ public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 						new ProfileImpl.Builder() // in our demo app, each user can only have one profile, so build just one profile here
 								/*.profileInfo()
 								.address()
+								.shippingAddress()
 								.social(new SocialImpl.Builder().build()) // empty social object
 								.attributes(new AttributesImpl.Builder().build()) // empty attributes object*/
 							.build()

@@ -14,12 +14,15 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriUtils;
 
 import com.douglaswhitehead.datalayer.OrderDataLayer;
+import com.douglaswhitehead.model.Address;
 import com.douglaswhitehead.model.Order;
+import com.douglaswhitehead.model.OrderForm;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.ShoppingCartItem;
 import com.douglaswhitehead.model.User;
@@ -33,7 +36,7 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 
 	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
 	@Override
-	public String checkout(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+	public String checkout(@ModelAttribute("orderForm") final OrderForm orderForm, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		boolean auth = isAuthenticated();
 		String cartId;
 
@@ -81,14 +84,14 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 	 */
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
 	@Override
-	public String complete(final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
+	public String complete(@ModelAttribute("orderForm") final OrderForm orderForm, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
 		boolean auth = isAuthenticated();
 		String cartId;
 
 		if (!checkCartIdCookie(request)) {
 			String error = "";
 			try {
-				error = UriUtils.encodeQueryParam("Order error.", "UTF-8");
+				error = UriUtils.encodeQueryParam("Order error. No cartId cookie.", "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -97,6 +100,15 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 			Cookie cookie = getCartIdCookie(request);
 			cartId = cookie.getValue();
 		}
+		
+		// in a prod env, we would validate shipping address info here
+		// validateShippingAddress();
+		Address shippingAddress = new Address(orderForm.getRecipientName(), orderForm.getLine1(), orderForm.getLine2(), 
+								  orderForm.getCity(), orderForm.getStateProvince(), orderForm.getPostalCode(), 
+								  orderForm.getCountry());
+		
+		// in a prod env, we would validate payment info here (or maybe in a separate form step)
+		// validatePaymentInfo();
 		
 		ShoppingCart cart = cartService.get(UUID.fromString(cartId));
 		User user = null;
@@ -128,7 +140,7 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		// simulate order service response, which would return an order 
 		Order order = new Order(UUID.randomUUID(), cart.getBasePrice(), cart.getVoucherCode(), cart.getVoucherDiscount(), 
 					  cart.getCurrency(), cart.getTaxRate(), cart.getShipping(), cart.getShippingMethod(), 
-					  cart.getPriceWithTax(), cart.getCartTotal(), cart.getCartItems());
+					  cart.getPriceWithTax(), cart.getCartTotal(), cart.getCartItems(), shippingAddress);
 		
 		String digitalData = digitalDataAdapter.adapt(dataLayer.complete(request, response, device, model, cart, order, user));
 		

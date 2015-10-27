@@ -25,7 +25,7 @@ import com.douglaswhitehead.model.digitaldata.product.ProductInfoImpl;
 public class ShoppingCartToCartAdapterImpl implements ShoppingCartToCartAdapter {
 
 	@Override
-	public Cart adapt(ShoppingCart cart) {
+	public Cart adapt(final ShoppingCart cart) {
 		
 		// if shopping cart is null, be sure to return an empty CEDDL cart object
 		if (cart == null) {
