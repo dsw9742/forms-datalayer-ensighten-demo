@@ -2,8 +2,10 @@ package com.douglaswhitehead.adapter;
 
 import org.springframework.stereotype.Component;
 
+import com.douglaswhitehead.model.digitaldata.common.AddressImpl;
 import com.douglaswhitehead.model.digitaldata.common.AttributesImpl;
 import com.douglaswhitehead.model.digitaldata.user.ProfileImpl;
+import com.douglaswhitehead.model.digitaldata.user.ProfileInfoImpl;
 import com.douglaswhitehead.model.digitaldata.user.SegmentImpl;
 import com.douglaswhitehead.model.digitaldata.user.SocialImpl;
 import com.douglaswhitehead.model.digitaldata.user.User;
@@ -36,14 +38,25 @@ public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 			User ceddlUser = new UserImpl.Builder()
 					.profile(new ProfileImpl[]{
 						new ProfileImpl.Builder() // in our demo app, each user can only have one profile, so build just one profile here
-								/*.profileInfo()
-								.address()
-								.shippingAddress()
-								.social(new SocialImpl.Builder().build()) // empty social object
-								.attributes(new AttributesImpl.Builder().build()) // empty attributes object*/
+								.profileInfo(new ProfileInfoImpl.Builder()
+										.profileID(user.getId().toString())
+										.userName(user.getUsername())
+										//.email() // empty, we opt not to use this in our demo retail app
+										//.language() // empty, we opt not to use this in our demo retail app
+										//.returningStatus() // empty, we opt not to use this in our demo retail app
+										//.type() // empty, we opt not to use this in our demo retail app
+									.build())
+								.address(new AddressImpl.Builder().build()) // empty address object, we do not require this of nor 
+																			// persist this from our demo retail app users 
+								.shippingAddress(new AddressImpl.Builder().build()) // empty address object, we do not persist this 
+																					// from our demo retail app users
+								.social(new SocialImpl.Builder().build()) // empty social object, we opt not to use this in our demo
+																		  // retail app
+								.attributes(new AttributesImpl.Builder().build()) // empty attributes object, we opt not to use this
+																				  // in our demo retail app
 							.build()
 					})
-					.segment(new SegmentImpl.Builder().build()) // empty segment object
+					.segment(new SegmentImpl.Builder().build()) // empty segment object, we opt not to use this in our demo retail app
 				.build();
 			ceddlUsers[p] = ceddlUser; // assign CEDDL user to array
 		}

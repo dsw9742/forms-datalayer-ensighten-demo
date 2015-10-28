@@ -83,8 +83,8 @@ public class OrderToTransactionAdapterImpl implements OrderToTransactionAdapter 
 			.profile(new ProfileImpl.Builder()
 					.profileInfo(new ProfileInfoImpl.Builder().build()) // empty profileInfo object is OK for us,
 																		// since we'll have this info in CEDDL user[]
-					.address(new AddressImpl.Builder().build()) // empty address object, same reasoning as above
-					.shippingAddress(new AddressImpl.Builder()
+					.address(new AddressImpl.Builder().build()) // empty address object
+					.shippingAddress(new AddressImpl.Builder() //shipping information related to the transaction
 							.line1(order.getShippingAddress().getLine1())
 							.line2(order.getShippingAddress().getLine2())
 							.city(order.getShippingAddress().getCity())
