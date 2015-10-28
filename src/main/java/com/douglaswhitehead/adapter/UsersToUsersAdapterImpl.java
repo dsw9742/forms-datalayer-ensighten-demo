@@ -21,21 +21,29 @@ import com.douglaswhitehead.model.digitaldata.user.UserImpl;
 @Component
 public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 
+	// TODO:, fix; this isn't working as expected
 	@Override
 	public User[] adapt(final com.douglaswhitehead.model.User[] users) {
 
 		// if users is null, be sure to return an empty CEDDL users array
-		if (users == null) {
+		if (users == null || users.length == 0) {
 			return new UserImpl[0];
 		}
-		
+System.out.println("users:"+users);
+System.out.println("users.length:"+users.length);
 		// create CEDDL users array
-		User[] ceddlUsers = new User[users.length];
-		
+		User[] ceddlUsers = new UserImpl[users.length];
+System.out.println("ceddlUsers:"+ceddlUsers);
+System.out.println("ceddlUsers.length:"+ceddlUsers.length);		
 		// for each user
 		for (int p=0;p<users.length;p++) {
 			com.douglaswhitehead.model.User user = users[p];
-			User ceddlUser = new UserImpl.Builder()
+			User ceddlUser = null;
+System.out.println("user:"+user);
+			if (user == null) {
+				ceddlUser = new UserImpl[0]; // is user is null, build empty CEDDL user object
+			} else {
+				ceddlUser = new UserImpl.Builder()
 					.profile(new ProfileImpl[]{
 						new ProfileImpl.Builder() // in our demo app, each user can only have one profile, so build just one profile here
 								.profileInfo(new ProfileInfoImpl.Builder()
@@ -58,6 +66,7 @@ public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 					})
 					.segment(new SegmentImpl.Builder().build()) // empty segment object, we opt not to use this in our demo retail app
 				.build();
+			}
 			ceddlUsers[p] = ceddlUser; // assign CEDDL user to array
 		}
 		

@@ -38,7 +38,7 @@ public class IndexDataLayerImpl extends AbstractDataLayer implements IndexDataLa
 			.event(new EventImpl[0])
 			.component(new ComponentImpl[0])
 			.user(usersAdapter.adapt(new User[]{user}))
-			.privacy(privacyAdapter.defaultPrivacy())
+			.privacy(privacyAdapter.defaultPrivacy()) // default privacy setting
 			.version(VERSION)
 		.build();
 	}
@@ -50,9 +50,9 @@ public class IndexDataLayerImpl extends AbstractDataLayer implements IndexDataLa
 		Date expiryDate = null;
 		
 		try {
-			issueDate = simpleDateFormat.parse("12/28/2001");
-			effectiveDate = simpleDateFormat.parse("12/29/2001");
-			expiryDate = simpleDateFormat.parse("12/30/2001");
+			issueDate = simpleDateFormat.parse("12/28/2001"); // these are entirely made up for example purposes
+			effectiveDate = simpleDateFormat.parse("12/29/2001"); // these are entirely made up for example purposes
+			expiryDate = simpleDateFormat.parse("12/30/2099"); // these are entirely made up for example purposes
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -61,25 +61,25 @@ public class IndexDataLayerImpl extends AbstractDataLayer implements IndexDataLa
 			.pageInfo(new PageInfoImpl.Builder()
 					.pageID("index")
 					.pageName("index")
-					.destinationURL("http://localhost/") // doesn't work well server-side, plan to overwrite this value from client side
-					.referringURL(request.getHeader("referer")) // doesn't work well server-side, plan to overwrite this value from client side
+					.destinationURL("") // does not work well server-side, plan to overwrite this value from client side
+					.referringURL(request.getHeader("referer")) // does not work well server-side, plan to overwrite this value from client side
 					.sysEnv(detector.detect(device))
 					.variant("1")
 					.version("1.0")
-					.breadcrumbs(new String[]{}) // doesn't work well server-side, plan to overwrite this value from client side
-					.author("Test McGee").security(new String[]{"Analytics"})
+					.breadcrumbs(new String[]{}) // does not work well server-side, plan to overwrite this value from client side
+					.author("Test McGee")
 					.issueDate(issueDate)
 					.effectiveDate(effectiveDate)
 					.expiryDate(expiryDate)
 					.language("en-US")
 					.geoRegion("US")
-					.industryCodes("")
-					.publisher("Shirley J Tester").security(new String[]{"Analytics"})
+					.industryCodes("") // empty industry codes for our demo retail app
+					.publisher("Shirley J Tester")
 				.build())
 			.category(new CategoryImpl.Builder()
-					.primaryCategory("index")
+					.primaryCategory("index") // we use site section as the primary category for our demo retail app
 				.build())
-			.attributes(new AttributesImpl.Builder()
+			.attributes(new AttributesImpl.Builder() // empty attributes object
 				.build())
 		.build();
 	}
