@@ -32,27 +32,31 @@ public class ProductsToProductsAdapterImpl implements ProductsToProductsAdapter 
 		// for each product
 		for (int p=0;p<products.length;p++) {
 			com.douglaswhitehead.model.Product product = products[p];
-			Product ceddlProduct = new ProductImpl.Builder() // create a new CEDDL product
-					.productInfo(new ProductInfoImpl.Builder()
-							.productID(String.valueOf(product.getId()))
-							.productName(product.getName())
-							.description(product.getDescription())
-							.productURL(product.getProductUrl())
-							.productImage(product.getImageUrl())
-							.productThumbnail(product.getThumbnailUrl())
-							.manufacturer(product.getManufacturer())
-							.sku(product.getSku())
-							.color(product.getColor())
-							.size(product.getSize())
-						.build())
-					.category(new CategoryImpl.Builder()
-							.primaryCategory(product.getCategory())
-						.build())
-					.linkedProduct(new ProductImpl[0]) // not applicable, no linked products in our demo retail store, but we want to return an 
-													   // empty product[] array
-					.attributes(new AttributesImpl.Builder().build()) // empty attributes object
-				.build();
-			
+			Product ceddlProduct = null;
+			if (product == null) {
+				return new ProductImpl[0]; // if product is null, return empty CEDDL product array
+			} else {
+				ceddlProduct = new ProductImpl.Builder() // create a new CEDDL product
+						.productInfo(new ProductInfoImpl.Builder()
+								.productID(String.valueOf(product.getId()))
+								.productName(product.getName())
+								.description(product.getDescription())
+								.productURL(product.getProductUrl())
+								.productImage(product.getImageUrl())
+								.productThumbnail(product.getThumbnailUrl())
+								.manufacturer(product.getManufacturer())
+								.sku(product.getSku())
+								.color(product.getColor())
+								.size(product.getSize())
+							.build())
+						.category(new CategoryImpl.Builder()
+								.primaryCategory(product.getCategory())
+							.build())
+						.linkedProduct(new ProductImpl[0]) // not applicable, no linked products in our demo retail store, but we want to return an 
+														   // empty product[] array
+						.attributes(new AttributesImpl.Builder().build()) // empty attributes object
+					.build();
+			}	
 			ceddlProducts[p] = ceddlProduct; // assign CEDDL product to array
 		}
 		

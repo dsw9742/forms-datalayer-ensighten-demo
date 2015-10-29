@@ -21,7 +21,6 @@ import com.douglaswhitehead.model.digitaldata.user.UserImpl;
 @Component
 public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 
-	// TODO:, fix; this isn't working as expected
 	@Override
 	public User[] adapt(final com.douglaswhitehead.model.User[] users) {
 
@@ -29,19 +28,16 @@ public class UsersToUsersAdapterImpl implements UsersToUsersAdapter {
 		if (users == null || users.length == 0) {
 			return new UserImpl[0];
 		}
-System.out.println("users:"+users);
-System.out.println("users.length:"+users.length);
+
 		// create CEDDL users array
 		User[] ceddlUsers = new UserImpl[users.length];
-System.out.println("ceddlUsers:"+ceddlUsers);
-System.out.println("ceddlUsers.length:"+ceddlUsers.length);		
+		
 		// for each user
 		for (int p=0;p<users.length;p++) {
 			com.douglaswhitehead.model.User user = users[p];
 			User ceddlUser = null;
-System.out.println("user:"+user);
 			if (user == null) {
-				ceddlUser = new UserImpl[0]; // is user is null, build empty CEDDL user object
+				return new UserImpl[0]; // if user is null, return empty CEDDL user array
 			} else {
 				ceddlUser = new UserImpl.Builder()
 					.profile(new ProfileImpl[]{
