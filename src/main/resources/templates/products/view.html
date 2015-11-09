@@ -13,8 +13,13 @@
 		
 		<script th:inline="javascript">
 		/*<![CDATA[*/
+		    // retrieve from server and set digitalData var
 			var digitalData = JSON.parse([[${digitalData}]]);
-			console.log("digitalData:%o",digitalData);
+			
+			// make client-side updates to digitalData
+			digitalData.page.pageInfo.destinationURL = document.location.toString();
+			digitalData.page.pageInfo.referringURL = document.referrer.toString();
+			digitalData.page.pageInfo.breadcrumbs = document.location.pathname.split('/');
 		/*]]>*/	
 		</script>
 	</head>
