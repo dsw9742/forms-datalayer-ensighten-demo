@@ -126,6 +126,16 @@ public class ShoppingCartRepositoryImpl implements ShoppingCartRepository {
 	@Override
 	public ShoppingCart update(final ShoppingCart cart) {
 		
+		// remove items from cart object where item quantity = 0
+		
+		List<ShoppingCartItem> updatedCartItems = new ArrayList<ShoppingCartItem>();
+		for (ShoppingCartItem item : cart.getCartItems()) {
+			if (item.getQuantity() < 1) {
+				updatedCartItems.add(item);
+			}
+		}
+		cart.getCartItems().removeAll(updatedCartItems);
+		
 		// perform calculations
 		
 		final ShoppingCart updateCart = calculateCartItems(cart, cart.getCartItems());

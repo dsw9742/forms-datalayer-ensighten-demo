@@ -22,6 +22,8 @@
 			digitalData.page.pageInfo.breadcrumbs = document.location.pathname.split('/');
 		/*]]>*/	
 		</script>
+		
+		<script type="text/javascript" th:src="${'//nexus.ensighten.com/'+ensManAccountId+'/'+ensManPublishPath+'/Bootstrap.js'}"></script>
 	</head>
 	<body>
 		<div th:replace="header :: header">&nbsp;</div>

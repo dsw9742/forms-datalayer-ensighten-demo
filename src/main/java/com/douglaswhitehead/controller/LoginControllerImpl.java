@@ -47,6 +47,8 @@ public class LoginControllerImpl extends AbstractController implements LoginCont
 		}
 		String digitalData = digitalDataAdapter.adapt(dataLayer.login(error, request, response, device, model, cart, user));
 		
+		model.addAttribute("ensManAccountId", properties.getAccountId());
+		model.addAttribute("ensManPublishPath", properties.getPublishPath());
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cartId);
 		model.addAttribute("cartSize", calculateCartSize(cart));

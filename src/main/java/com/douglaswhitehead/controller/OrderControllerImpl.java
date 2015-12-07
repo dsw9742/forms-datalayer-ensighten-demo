@@ -71,6 +71,8 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		}
 		String digitalData = digitalDataAdapter.adapt(dataLayer.checkout(request, response, device, model, cart, user));
 		
+		model.addAttribute("ensManAccountId", properties.getAccountId());
+		model.addAttribute("ensManPublishPath", properties.getPublishPath());
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cart.getId().toString());
 		model.addAttribute("cartSize", calculateCartSize(cart));
@@ -79,9 +81,6 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		return "orders/checkout";
 	}
 	
-	/**
-	 * TODO: collect address information and push into Order object.
-	 */
 	@RequestMapping(value = "/complete", method = RequestMethod.POST)
 	@Override
 	public String complete(@ModelAttribute("orderForm") final OrderForm orderForm, final HttpServletRequest request, final Device device, final HttpServletResponse response, final Model model) {
@@ -144,6 +143,8 @@ public class OrderControllerImpl extends AbstractController implements OrderCont
 		
 		String digitalData = digitalDataAdapter.adapt(dataLayer.complete(request, response, device, model, cart, order, user));
 		
+		model.addAttribute("ensManAccountId", properties.getAccountId());
+		model.addAttribute("ensManPublishPath", properties.getPublishPath());
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cart.getId().toString());
 		model.addAttribute("cartSize", 0); // cart items is now 0

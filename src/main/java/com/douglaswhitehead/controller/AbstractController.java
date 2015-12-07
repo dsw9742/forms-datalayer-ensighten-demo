@@ -2,22 +2,28 @@ package com.douglaswhitehead.controller;
 
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.douglaswhitehead.adapter.DigitalDataToStringAdapter;
+import com.douglaswhitehead.configuration.EnsightenManageConfigProperties;
 import com.douglaswhitehead.model.ShoppingCart;
 import com.douglaswhitehead.model.ShoppingCartItem;
 import com.douglaswhitehead.service.ShoppingCartService;
 
 public abstract class AbstractController {
+	
+	@Autowired
+	protected EnsightenManageConfigProperties properties;
 	
 	private static final String CART_ID_COOKIE_NAME = "shoppingCartId";
 	
@@ -36,6 +42,15 @@ public abstract class AbstractController {
 	 */
 	@Autowired
 	protected ShoppingCartService cartService;
+	
+	@PostConstruct
+	public void init() {
+		if(null == properties) {
+			System.out.println("no properties");
+		} else {
+			System.out.println(properties.toString());
+		}
+	}
 	
 	/**
 	 * Returns true if a principal is not anonymous, false otherwise.

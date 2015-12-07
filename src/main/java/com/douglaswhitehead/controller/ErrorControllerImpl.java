@@ -48,6 +48,8 @@ public class ErrorControllerImpl extends AbstractController implements ErrorCont
 		}
 		String digitalData = digitalDataAdapter.adapt(dataLayer.error(HtmlUtils.htmlEscape(error), String.valueOf(response.getStatus()), request, response, device, model, cart, user));
 		
+		model.addAttribute("ensManAccountId", properties.getAccountId());
+		model.addAttribute("ensManPublishPath", properties.getPublishPath());
 		model.addAttribute("isAuthenticated", auth);
 		model.addAttribute("cartId", cartId);
 		model.addAttribute("cartSize", calculateCartSize(cart));

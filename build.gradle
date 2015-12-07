@@ -35,6 +35,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-configuration-processor')
     compile('net.sourceforge.nekohtml:nekohtml:1.9.15')
     compile('com.h2database:h2')
     compile files('../ceddl/build/libs/ceddl-1.0.0.jar')
