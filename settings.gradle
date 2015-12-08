@@ -1,1 +1,1 @@
-include ':ceddl'
+include ':lib/ceddl-1.0'
