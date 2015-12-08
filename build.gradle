@@ -18,7 +18,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
 
 jar {
-    baseName = 'forms-datalayer-ensighten-demo'
+    baseName = 'pages-datalayer-ensighten-demo'
     version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.7
@@ -38,7 +38,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-configuration-processor')
     compile('net.sourceforge.nekohtml:nekohtml:1.9.15')
     compile('com.h2database:h2')
-    compile files('../ceddl/build/libs/ceddl-1.0.0.jar')
+    compile project(':ceddl')
     testCompile('org.springframework.boot:spring-boot-starter-test') 
 }
 
