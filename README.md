@@ -1,7 +1,6 @@
 # Spring Boot Demo App, Data Layer with Ensighten Manage Tag Management System
 ## Proof of Concept
 
-* [AngularJS](https://angularjs.org)
 * [Data Layer](https://www.w3.org/2013/12/ceddl-201312.pdf)
 * [Ensighten](https://www.ensighten.com/products/tag-management/manage/)
 
